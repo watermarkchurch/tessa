@@ -2,10 +2,19 @@ require 'bundler/setup'
 Bundler.require(:default)
 
 APP_ROOT = File.expand_path("../..", __FILE__)
-PATH_ADDITIONS = %w[app]
+PRELOAD_PATHS = %w[
+  app/controllers
+  app/models
+]
 
-PATH_ADDITIONS.each do |path|
+PRELOAD_PATHS.each do |path|
   $LOAD_PATH.unshift(File.join(APP_ROOT, path))
+end
+
+PRELOAD_PATHS.each do |path|
+  Dir[File.join(APP_ROOT, path, "*.rb")].each do |file|
+    require File.basename(file)
+  end
 end
 
 require "#{APP_ROOT}/config/application"

@@ -1,6 +1,3 @@
-class TessaApp < Sinatra::Base
-
-  post "/uploads" do
-  end
-
-end
+TessaApp = Rack::URLMap.new(
+  "/uploads" => UploadsController
+)

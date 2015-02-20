@@ -1,13 +1,7 @@
 require 'spec_helper'
+require 'json'
 
-RSpec.describe "uploads endpoints" do
-  include Rack::Test::Methods
-  alias :response :last_response
-
-  def app
-    TessaApp
-  end
-
+RSpec.describe "uploads endpoints", type: :request do
   describe "POST to /uploads" do
     let(:data) { {} }
 
@@ -18,8 +12,17 @@ RSpec.describe "uploads endpoints" do
     it "returns a 200" do
       expect(response.status).to eq(200)
     end
-    it "returns an upload_method"
+
+    it "contains valid json" do
+      expect { json }.to_not raise_error
+    end
+
+    it "sets content_type to application/json" do
+      expect(response.headers["Content-Type"]).to match(%r'application/json')
+    end
+
     it "returns an upload_url"
+    it "returns an upload_method"
     it "returns a success_url"
     it "returns a cancel_url"
   end
