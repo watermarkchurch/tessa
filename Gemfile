@@ -1,5 +1,8 @@
 source "https://rubygems.org"
 
+gem 'sinatra', '~>1.4.5'
+
 group :development do
-  gem 'rspec'
+  gem 'rspec', '~>3.2.0'
+  gem 'rack-test', '~>0.6.3'
 end
