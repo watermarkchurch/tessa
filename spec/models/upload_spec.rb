@@ -59,4 +59,17 @@ RSpec.describe Upload do
     end
   end
 
+  describe "#save" do
+    it "calls :asset_factory with all params"
+    it "defaults :asset_factory to CreatesAsset"
+    it "returns true on success"
+    it "returns false on failure"
+  end
+
+  describe "#to_json" do
+    it "returns an upload_url"
+    it "returns an upload_method"
+    it "returns a success_url"
+    it "returns a cancel_url"
+  end
 end
