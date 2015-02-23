@@ -1,6 +1,8 @@
 require 'bundler/setup'
 Bundler.require(:default)
 
+Dotenv.load
+
 APP_ROOT = File.expand_path("../..", __FILE__)
 PRELOAD_PATHS = %w[
   app/controllers
