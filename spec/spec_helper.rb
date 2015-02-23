@@ -1,6 +1,7 @@
 require File.expand_path("../../config/environment", __FILE__)
 
 require 'rack/test'
+require 'json'
 
 Dir[File.join(File.expand_path("../support", __FILE__), "*.rb")].each do |file|
   require file
