@@ -19,5 +19,7 @@ PRELOAD_PATHS.each do |path|
   end
 end
 
+DATABASE_URL ||= ENV['DATABASE_URL'] || fail("You must configure DATABASE_URL envvar")
+
 require "#{APP_ROOT}/config/application"
 
