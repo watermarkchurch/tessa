@@ -17,9 +17,17 @@ task :pry => :environment do
 end
 
 namespace :db do
-  task :migrate => :environment do |t, args|
+
+  desc "migrate the database"
+  task :migrate, [:version] => :environment do |t, args|
     Sequel.extension :migration
-    Sequel::Migrator.run(DB, MIGRATIONS_PATH, use_transactions: true)
+    options = {
+      use_transactions: true,
+    }
+    if args[:version]
+      options[:target] = args[:version].to_i
+    end
+    Sequel::Migrator.run(DB, MIGRATIONS_PATH, options)
   end
 end
 
