@@ -6,7 +6,7 @@ Sequel.migration do
       column :uid, String, null: false, unique: true
       column :acl, String, null: false
       column :status_id, Integer, null: false
-      column :meta, :json, null: false, default: {}
+      column :meta, :json, null: false, default: '{}'
     end
   end
 end
