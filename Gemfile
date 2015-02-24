@@ -8,6 +8,7 @@ gem 'sequel_pg', '~>1.6.11', require: 'sequel'
 
 group :development do
   gem 'rspec', '~>3.2.0'
+  gem 'rake', '~>10.4.2'
   gem 'rack-test', '~>0.6.3'
   gem 'timecop', '~>0.7.1'
 end
