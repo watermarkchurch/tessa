@@ -6,6 +6,7 @@ RSpec.describe Asset do
     subject(:asset) { described_class.new(args) }
     let(:args) {
       {
+        id: 123,
         strategy: "mystrat",
         uid: "some/path/123",
         acl: "public",
@@ -15,6 +16,10 @@ RSpec.describe Asset do
     }
 
     context "all attributes set" do
+      it "sets :id to attribute" do
+        expect(asset.id).to eq(123)
+      end
+
       it "sets :strategy to attribute" do
         expect(asset.strategy).to eq("mystrat")
       end
@@ -38,6 +43,13 @@ RSpec.describe Asset do
 
     shared_examples_for "raises argument error" do
       it { expect { asset }.to raise_error(ArgumentError) }
+    end
+
+    context "without :id" do
+      before { args.delete(:id) }
+      it "defaults to nil" do
+        expect(asset.id).to be_nil
+      end
     end
 
     context "without :strategy" do

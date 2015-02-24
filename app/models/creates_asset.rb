@@ -15,7 +15,9 @@ class CreatesAsset
   end
 
   def call
-    dataset.insert(asset_args)
+    return @asset if @asset
+    asset_id = dataset.insert(asset_args)
+    @asset = Asset.new(asset_args.merge(id: asset_id))
   end
 
   def asset_args
