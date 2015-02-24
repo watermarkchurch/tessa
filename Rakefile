@@ -11,6 +11,11 @@ task :environment do
   require File.expand_path("../config/environment", __FILE__)
 end
 
+task :pry => :environment do
+  require 'pry'
+  Pry.start
+end
+
 namespace :db do
   task :migrate => :environment do |t, args|
     Sequel.extension :migration
