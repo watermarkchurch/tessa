@@ -1,6 +1,6 @@
 require 'securerandom'
 
-class UidGenerator
+class GeneratesUid
   attr_reader :strategy, :name
 
   DELIMITER = "/"

@@ -60,13 +60,13 @@ RSpec.describe CreatesAsset do
         expect(creates_asset.meta).to eq({})
       end
 
-      it "sets :uid to UidGenerator.(strategy)" do
+      it "sets :uid to GeneratesUid.(strategy)" do
         uid_generator_args = {
           strategy: "default",
           name: "filename.txt",
         }
         args[:meta] = { "name" => "filename.txt" }
-        expect(UidGenerator).to receive(:call).with(uid_generator_args).and_return(:my_uid)
+        expect(GeneratesUid).to receive(:call).with(uid_generator_args).and_return(:my_uid)
         expect(creates_asset.uid).to eq(:my_uid)
       end
     end
@@ -78,7 +78,7 @@ RSpec.describe CreatesAsset do
     let(:uid) { 'my_uid' }
 
     it "calls insert on the dataset with mapped fields" do
-      expect(UidGenerator).to receive(:call).and_return(uid)
+      expect(GeneratesUid).to receive(:call).and_return(uid)
       record = {
         strategy: 'default',
         acl: 'private',

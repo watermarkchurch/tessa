@@ -10,7 +10,7 @@ class CreatesAsset
     @meta = args.fetch(:meta) { {} }
 
     @uid = args.fetch(:uid) {
-      UidGenerator.call(name: meta["name"], strategy: strategy)
+      GeneratesUid.call(name: meta["name"], strategy: strategy)
     }
   end
 

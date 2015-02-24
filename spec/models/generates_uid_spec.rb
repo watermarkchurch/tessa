@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe UidGenerator do
+RSpec.describe GeneratesUid do
   subject(:generator) { described_class.new(args) }
   let(:args) {
     {
