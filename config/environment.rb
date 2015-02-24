@@ -1,7 +1,13 @@
+ENV['RACK_ENV'] ||= "development"
+
 require 'bundler/setup'
 Bundler.require(:default)
 
-Dotenv.load
+if ENV['RACK_ENV'] == "test"
+  Dotenv.load(".env.test")
+else
+  Dotenv.load
+end
 
 APP_ROOT = File.expand_path("../..", __FILE__)
 PRELOAD_PATHS = %w[

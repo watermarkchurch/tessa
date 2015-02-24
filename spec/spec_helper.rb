@@ -29,6 +29,10 @@ RSpec.configure do |config|
     config.default_formatter = 'doc'
   end
 
+  config.around(:each) do |example|
+    DB.transaction(rollback: :always, auto_savepoint: true) { example.run }
+  end
+
   config.include ControllerSpecHelpers, type: :controller
   config.include RequestSpecHelpers, type: :request
 end
