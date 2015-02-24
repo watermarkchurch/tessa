@@ -1,21 +1,20 @@
 require 'spec_helper'
 
 RSpec.describe Upload do
+  subject(:upload) { described_class.new(attrs) }
+  let(:attrs) { valid_attrs }
+  let(:valid_attrs) {
+    {
+      "strategy" => "temp",
+      "acl" => "public",
+      "name" => "foo.txt",
+      "size" => "3",
+      "mime_type" => "text/plain",
+    }
+  }
 
   describe "#initialize" do
-
     context "with all attributes set" do
-      let(:attrs) {
-        {
-          "strategy" => "temp",
-          "acl" => "public",
-          "name" => "foo.txt",
-          "size" => "3",
-          "mime_type" => "text/plain",
-        }
-      }
-      let(:upload) { described_class.new(attrs) }
-
       it "sets strategy to attribute" do
         expect(upload.strategy).to eq("temp")
       end
@@ -38,7 +37,7 @@ RSpec.describe Upload do
     end
 
     context "with no attributes set" do
-      let(:upload) { described_class.new }
+      let(:attrs) { {} }
 
       it "sets strategy to 'default'" do
         expect(upload.strategy).to eq("default")
@@ -60,10 +59,56 @@ RSpec.describe Upload do
   end
 
   describe "#save" do
-    it "calls :asset_factory with all params"
-    it "defaults :asset_factory to CreatesAsset"
-    it "returns true on success"
-    it "returns false on failure"
+    let(:asset_attrs) {
+      {
+        strategy: "temp",
+        acl: "public",
+        meta: {
+          name: "foo.txt",
+          size: 3,
+          mime_type: "text/plain",
+        }
+      }
+    }
+
+    context "with default :asset_factory" do
+      it "uses CreatesAsset" do
+        asset = double(:asset, id: 123)
+        expect(CreatesAsset).to receive(:call).with(asset_attrs).and_return(asset)
+        upload.save
+      end
+    end
+
+    context "with custom :asset_factory" do
+      subject(:save_return) { upload.save(asset_factory: factory) }
+      let(:factory) { -> (args) { double(:asset, id: 123) } }
+
+      it "calls the factory with all passed args" do
+        asset = factory.({})
+        expect(factory).to receive(:call).with(asset_attrs).and_return(asset)
+        save_return
+      end
+
+      it "is idempotent" do
+        asset = double(:asset, id: 123)
+        expect(factory).to receive(:call).once.and_return(asset)
+        upload.save(asset_factory: factory)
+        upload.save(asset_factory: factory)
+      end
+
+      context "returned asset has an id" do
+        it "returns truthy" do
+          expect(save_return).to be_truthy
+        end
+      end
+
+      context "returned asset does not have an id" do
+        let(:factory) { -> (args) { double(:asset, id: nil) } }
+        it "returns falsey" do
+          expect(save_return).to be_falsey
+        end
+      end
+    end
   end
 
   describe "#to_json" do

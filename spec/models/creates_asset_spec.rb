@@ -82,6 +82,7 @@ RSpec.describe CreatesAsset do
         acl: 'private',
         uid: uid,
         meta: {},
+        status_id: 1,
       }
     }
 

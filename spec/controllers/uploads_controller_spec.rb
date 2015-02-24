@@ -68,7 +68,8 @@ RSpec.describe UploadsController, type: :controller do
       end
 
       it "initializes an Upload object with all params" do
-        expect(Upload).to receive(:new).with(params)
+        upload = double(Upload, save: true)
+        expect(Upload).to receive(:new).with(params).and_return(upload)
         run_request
       end
     end
@@ -87,7 +88,8 @@ RSpec.describe UploadsController, type: :controller do
       end
 
       it "doesn't initialize Upload with any invalid params" do
-        expect(Upload).to receive(:new).with({})
+        upload = double(Upload, save: true)
+        expect(Upload).to receive(:new).with({}).and_return(upload)
         run_request
       end
     end

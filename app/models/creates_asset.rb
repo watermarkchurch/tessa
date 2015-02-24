@@ -17,7 +17,9 @@ class CreatesAsset
 
   def call
     return @asset if @asset
-    asset_id = dataset.insert(asset_args)
+    insert_args = asset_args
+    insert_args[:meta] = Sequel.pg_json(insert_args[:meta])
+    asset_id = dataset.insert(insert_args)
     @asset = Asset.new(asset_args.merge(id: asset_id))
   end
 
@@ -27,6 +29,7 @@ class CreatesAsset
       acl: acl,
       uid: uid,
       meta: meta,
+      status_id: 1,
     }
   end
 

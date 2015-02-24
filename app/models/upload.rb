@@ -10,7 +10,27 @@ class Upload
     @mime_type = args['mime_type']
   end
 
-  def save
+  def save(asset_factory: CreatesAsset)
+    @asset ||= asset_factory.call(asset_attributes)
+    if @asset.id
+      true
+    else
+      false
+    end
+  end
+
+  private
+
+  def asset_attributes
+    {
+      strategy: strategy,
+      acl: acl,
+      meta: {
+        name: name,
+        size: size,
+        mime_type: mime_type,
+      }
+    }
   end
 
 end
