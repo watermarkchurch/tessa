@@ -8,4 +8,5 @@ gem 'sequel', '~>4.19.0'
 group :development do
   gem 'rspec', '~>3.2.0'
   gem 'rack-test', '~>0.6.3'
+  gem 'timecop', '~>0.7.1'
 end
