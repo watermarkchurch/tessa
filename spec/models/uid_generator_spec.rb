@@ -23,9 +23,41 @@ RSpec.describe UidGenerator do
       expect { described_class.new(new_args) }.to raise_error
     end
 
-    it "defaults :name to 'file'" do
-      new_args = args.reject { |k,_| k == :name }
-      expect(described_class.new(new_args).name).to eq("file")
+    shared_examples_for "sets default name" do
+      it do
+        expect(generator.name).to eq("file")
+      end
+    end
+
+    context "with no :name set" do
+      before { args.delete(:name) }
+      it_behaves_like "sets default name"
+    end
+
+    context "nil :name passed" do
+      before { args[:name] = nil }
+      it_behaves_like "sets default name"
+    end
+
+    context "empty string :name passed" do
+      before { args[:name] = "" }
+      it_behaves_like "sets default name"
+    end
+
+    context "with special characters in name" do
+      before { args[:name] = " dirty_file##@2$®¶áname.pdf" }
+      it "sanitizes the name" do
+        expect(generator.name).to eq("dirty-file-2-name.pdf")
+      end
+    end
+
+    context "with a really long name" do
+      before { args[:name] = "A" * 257 + "B" * 256 }
+      it "truncates the beginning of the filename" do
+        name = generator.name
+        expect(name.size).to eq(512)
+        expect(name.count("A")).to eq(name.count("B"))
+      end
     end
   end
 
