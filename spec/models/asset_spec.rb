@@ -4,18 +4,17 @@ RSpec.describe Asset do
 
   describe "#initialize" do
     subject(:asset) { described_class.new(args) }
+    let(:args) {
+      {
+        strategy: "mystrat",
+        uid: "some/path/123",
+        acl: "public",
+        status_id: 1,
+        meta: { "foo" => "bar" }
+      }
+    }
 
     context "all attributes set" do
-      let(:args) {
-        {
-          "strategy" => "mystrat",
-          "uid" => "some/path/123",
-          "acl" => "public",
-          "status_id" => 1,
-          "meta" => { "foo" => "bar" }
-        }
-      }
-
       it "sets :strategy to attribute" do
         expect(asset.strategy).to eq("mystrat")
       end
@@ -37,22 +36,36 @@ RSpec.describe Asset do
       end
     end
 
-    context "no attributes set" do
-      let(:args) { {} }
-      it "sets :strategy to 'default'" do
-        expect(subject.strategy).to eq("default")
-      end
+    shared_examples_for "raises argument error" do
+      it { expect { asset }.to raise_error(ArgumentError) }
+    end
 
-      it "sets :acl to 'private'" do
-        expect(asset.acl).to eq("private")
-      end
+    context "without :strategy" do
+      before { args.delete(:strategy) }
+      it_behaves_like "raises argument error"
+    end
 
-      it "sets :status_id to 1" do
-        expect(subject.status_id).to eq(1)
-      end
+    context "without :uid" do
+      before { args.delete(:uid) }
+      it_behaves_like "raises argument error"
+    end
 
-      it "sets :meta to an empty hash" do
-        expect(subject.meta).to eq({})
+    context "without :acl" do
+      before { args.delete(:acl) }
+      it_behaves_like "raises argument error"
+    end
+
+    context "without :status_id" do
+      before { args.delete(:status_id) }
+      it "sets to default of 1" do
+        expect(asset.status_id).to eq(1)
+      end
+    end
+
+    context "without :meta" do
+      before { args.delete(:meta) }
+      it "sets to default of {}" do
+        expect(asset.meta).to eq({})
       end
     end
   end
