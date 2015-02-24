@@ -9,7 +9,7 @@ class GeneratesUid
 
   def initialize(strategy:, name: nil)
     @strategy = strategy
-    @name = sanitize_name(name)
+    @name = handle_name(name)
   end
 
   def call(date: Date.today)
@@ -26,15 +26,21 @@ class GeneratesUid
 
   private
 
-  def sanitize_name(name)
-    if name.nil? || name.empty?
+  def handle_name(name)
+    name = sanitize_name(name || "")
+    name = truncate_name(name)
+    if name.empty? || name == "-"
       DEFAULT_NAME
     else
-      truncate_name name
-        .strip
-        .gsub(/[^a-zA-Z0-9.]+/, '-')
-        .gsub(/-{2,}/, '-')
+      name
     end
+  end
+
+  def sanitize_name(name)
+    truncate_name name
+      .strip
+      .gsub(/[^a-zA-Z0-9.]+/, '-')
+      .gsub(/-{2,}/, '-')
   end
 
   def truncate_name(name, max: MAX_NAME_LENGTH)

@@ -59,6 +59,11 @@ RSpec.describe GeneratesUid do
         expect(name.count("A")).to eq(name.count("B"))
       end
     end
+
+    context "with an invalid name" do
+      before { args[:name] = "$®¶á" }
+      it_behaves_like "sets default name"
+    end
   end
 
   describe "#call" do
