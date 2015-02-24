@@ -61,7 +61,12 @@ RSpec.describe CreatesAsset do
       end
 
       it "sets :uid to UidGenerator.(strategy)" do
-        expect(UidGenerator).to receive(:call).with("default").and_return(:my_uid)
+        uid_generator_args = {
+          strategy: "default",
+          name: "filename.txt",
+        }
+        args[:meta] = { "name" => "filename.txt" }
+        expect(UidGenerator).to receive(:call).with(uid_generator_args).and_return(:my_uid)
         expect(creates_asset.uid).to eq(:my_uid)
       end
     end

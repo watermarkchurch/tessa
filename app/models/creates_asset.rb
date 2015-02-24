@@ -6,9 +6,12 @@ class CreatesAsset
   def initialize(args={})
     @dataset = args.fetch(:dataset) { DB[:assets] }
     @strategy = args.fetch(:strategy) { "default" }
-    @uid = args.fetch(:uid) { UidGenerator.call(strategy) }
     @acl = args.fetch(:acl) { "private" }
     @meta = args.fetch(:meta) { {} }
+
+    @uid = args.fetch(:uid) {
+      UidGenerator.call(name: meta["name"], strategy: strategy)
+    }
   end
 
   def call
