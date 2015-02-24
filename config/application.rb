@@ -3,3 +3,4 @@ TessaApp = Rack::URLMap.new(
 )
 
 DB = Sequel.connect(DATABASE_URL)
+DB.extension :pg_json
