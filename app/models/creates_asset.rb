@@ -3,15 +3,16 @@ class CreatesAsset
   attr_reader :strategy, :acl, :uid
   attr_reader :meta
 
-  def initialize(args={})
-    @dataset = args.fetch(:dataset) { DB[:assets] }
-    @strategy = args.fetch(:strategy) { "default" }
-    @acl = args.fetch(:acl) { "private" }
-    @meta = args.fetch(:meta) { {} }
-
-    @uid = args.fetch(:uid) {
-      GeneratesUid.call(name: meta["name"], strategy: strategy)
-    }
+  def initialize(dataset: DB[:assets],
+                 strategy: "default",
+                 acl: "private",
+                 meta: {},
+                 uid: nil)
+    @dataset = dataset
+    @strategy = strategy
+    @acl = acl
+    @meta = meta
+    @uid = uid || generate_uid
   end
 
   def call
@@ -31,6 +32,12 @@ class CreatesAsset
 
   def self.call(args={})
     new(args).call
+  end
+
+  private
+
+  def generate_uid
+    GeneratesUid.call(name: meta["name"], strategy: strategy)
   end
 
 end
