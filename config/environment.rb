@@ -11,6 +11,7 @@ end
 
 APP_ROOT = File.expand_path("../..", __FILE__)
 PRELOAD_PATHS = %w[
+  lib
   app/controllers
   app/models
 ]
