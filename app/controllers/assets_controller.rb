@@ -1,6 +1,6 @@
 class AssetsController < Sinatra::Base
 
-  error Sequel::NoMatchingRow do
+  error PersistedModel::RecordNotFound do
     content_type "application/json"
     status 404
     {}.to_json

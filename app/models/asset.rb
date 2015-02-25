@@ -30,6 +30,13 @@ class Asset
   end
 
   def self.find(id)
-    new DB[:assets].where(id: id).first!
+    persistance.find(id)
+  end
+
+  def self.persistance
+    @persistance ||= PersistedModel.new(
+      model: self,
+      dataset: DB[:assets]
+    )
   end
 end
