@@ -82,4 +82,20 @@ RSpec.describe Asset do
     end
   end
 
+  describe "::find" do
+    it "raises error if asset doesn't exist by this id in DB" do
+      expect { described_class.find(0) }.to raise_error(Sequel::NoMatchingRow)
+    end
+
+    context "with an existing asset" do
+      let(:asset) { create(:asset) }
+
+      it "returns an instance of the asset" do
+        found = described_class.find(asset.id)
+        expect(found).to be_a(described_class)
+        expect(found.id).to eq(asset.id)
+        expect(found.uid).to eq(asset.uid)
+      end
+    end
+  end
 end

@@ -17,4 +17,8 @@ class Asset
     @meta = meta
   end
 
+
+  def self.find(id)
+    new DB[:assets].where(id: id).first!
+  end
 end
