@@ -1,20 +1,19 @@
 require 'spec_helper'
 
 RSpec.describe Asset do
+  subject(:asset) { described_class.new(args) }
+  let(:args) {
+    {
+      id: 123,
+      strategy: "mystrat",
+      uid: "some/path/123",
+      acl: "public",
+      status_id: 1,
+      meta: { "foo" => "bar" }
+    }
+  }
 
   describe "#initialize" do
-    subject(:asset) { described_class.new(args) }
-    let(:args) {
-      {
-        id: 123,
-        strategy: "mystrat",
-        uid: "some/path/123",
-        acl: "public",
-        status_id: 1,
-        meta: { "foo" => "bar" }
-      }
-    }
-
     context "all attributes set" do
       it "sets :id to attribute" do
         expect(asset.id).to eq(123)
@@ -78,6 +77,36 @@ RSpec.describe Asset do
       before { args.delete(:meta) }
       it "sets to default of {}" do
         expect(asset.meta).to eq({})
+      end
+    end
+  end
+
+  describe "#status" do
+    context "status_id is 1" do
+      before { args[:status_id] = 1 }
+      it "returns :pending" do
+        expect(asset.status).to eq(:pending)
+      end
+    end
+
+    context "status_id is 2" do
+      before { args[:status_id] = 2 }
+      it "returns :completed" do
+        expect(asset.status).to eq(:completed)
+      end
+    end
+
+    context "status_id is 3" do
+      before { args[:status_id] = 3 }
+      it "returns :completed" do
+        expect(asset.status).to eq(:cancelled)
+      end
+    end
+
+    context "status_id is 4" do
+      before { args[:status_id] = 4 }
+      it "returns :completed" do
+        expect(asset.status).to eq(:deleted)
       end
     end
   end
