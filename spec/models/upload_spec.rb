@@ -112,9 +112,22 @@ RSpec.describe Upload do
   end
 
   describe "#to_json" do
-    it "returns an upload_url"
-    it "returns an upload_method"
-    it "returns a success_url"
-    it "returns a cancel_url"
+    subject(:parsed) { JSON.parse(upload.to_json) }
+
+    it "returns an upload_url" do
+      expect(parsed['upload_url']).to be_truthy
+    end
+
+    it "returns an upload_method" do
+      expect(parsed['upload_method']).to be_truthy
+    end
+
+    it "returns a success_url" do
+      expect(parsed['success_url']).to be_truthy
+    end
+
+    it "returns a cancel_url" do
+      expect(parsed['cancel_url']).to be_truthy
+    end
   end
 end

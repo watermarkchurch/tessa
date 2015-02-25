@@ -19,6 +19,15 @@ class Upload
     end
   end
 
+  def to_json
+    {
+      upload_url: "url",
+      upload_method: "method",
+      success_url: "url",
+      cancel_url: "url",
+    }.to_json
+  end
+
   private
 
   def asset_attributes

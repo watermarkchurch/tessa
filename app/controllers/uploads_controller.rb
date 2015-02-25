@@ -14,12 +14,7 @@ class UploadsController < Sinatra::Base
   post "/" do
     upload = Upload.new(upload_params)
     upload.save
-    %{{
-      "upload_url": "test",
-      "upload_method": "test",
-      "success_url": "test",
-      "cancel_url": "test"
-    }}
+    upload.to_json
   end
 
   def upload_params
