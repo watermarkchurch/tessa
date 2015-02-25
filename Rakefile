@@ -18,6 +18,14 @@ end
 
 namespace :db do
 
+  task :create => :environment do |t, args|
+    exec "createdb #{db_name}"
+  end
+
+  task :drop => :environment do |t, args|
+    exec "dropdb #{db_name}"
+  end
+
   desc "migrate the database"
   task :migrate, [:version] => :environment do |t, args|
     Sequel.extension :migration
@@ -28,6 +36,10 @@ namespace :db do
       options[:target] = args[:version].to_i
     end
     Sequel::Migrator.run(DB, MIGRATIONS_PATH, options)
+  end
+
+  def db_name
+    URI(ENV['DATABASE_URL']).path[1..-1]
   end
 end
 
