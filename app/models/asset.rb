@@ -4,11 +4,12 @@ class Asset
   attr_reader :status_id, :meta
 
   STATUSES = {
-    1 => :pending,
-    2 => :completed,
-    3 => :cancelled,
-    4 => :deleted,
+    pending: 1,
+    completed: 2,
+    cancelled: 3,
+    deleted: 4,
   }
+  ID_TO_STATUSES = STATUSES.invert
 
   def initialize(id: nil,
                  strategy:,
@@ -25,7 +26,7 @@ class Asset
   end
 
   def status
-    STATUSES[status_id]
+    ID_TO_STATUSES[status_id]
   end
 
   def self.find(id)
