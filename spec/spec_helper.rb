@@ -36,3 +36,10 @@ RSpec.configure do |config|
   config.include ControllerSpecHelpers, type: :controller
   config.include RequestSpecHelpers, type: :request
 end
+
+begin
+  DB.get(1)
+rescue Sequel::DatabaseConnectionError
+  puts "Test database connection failure. Attempting to build it."
+  `RACK_ENV=test rake db:create && RACK_ENV=test rake db:migrate`
+end
