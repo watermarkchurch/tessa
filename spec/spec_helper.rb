@@ -34,7 +34,10 @@ RSpec.configure do |config|
   end
 
   config.include ControllerSpecHelpers, type: :controller
+
   config.include FeatureSpecHelpers, type: :feature
+  config.alias_example_group_to :feature, type: :feature
+  config.alias_example_to :scenario
 end
 
 begin
