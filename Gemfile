@@ -7,6 +7,7 @@ gem 'sequel', '~>4.19.0'
 gem 'sequel_pg', '~>1.6.11', require: 'sequel'
 
 group :development do
+  gem 'fabrication', '~>2.12.2'
   gem 'pry', '~>0.10.1'
   gem 'rspec', '~>3.2.0'
   gem 'rake', '~>10.4.2'

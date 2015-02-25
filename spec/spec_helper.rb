@@ -4,6 +4,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rack/test'
 require 'json'
 require 'timecop'
+require 'fabrication'
 
 Dir[File.join(File.expand_path("../support", __FILE__), "*.rb")].each do |file|
   require file
@@ -33,6 +34,7 @@ RSpec.configure do |config|
     DB.transaction(rollback: :always, auto_savepoint: true) { example.run }
   end
 
+  config.include FactoryHelpers
   config.include ControllerSpecHelpers, type: :controller
 
   config.include FeatureSpecHelpers, type: :feature
