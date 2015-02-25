@@ -1,4 +1,4 @@
-module RequestSpecHelpers
+module FeatureSpecHelpers
   def app
     TessaApp
   end

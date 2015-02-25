@@ -34,7 +34,7 @@ RSpec.configure do |config|
   end
 
   config.include ControllerSpecHelpers, type: :controller
-  config.include RequestSpecHelpers, type: :request
+  config.include FeatureSpecHelpers, type: :feature
 end
 
 begin
