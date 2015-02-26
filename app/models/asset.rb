@@ -25,11 +25,11 @@ class Asset
   end
 
   def self.find(id)
-    persistance.find(id)
+    persistence.find(id)
   end
 
-  def self.persistance
-    @persistance ||= PersistedModel.new(
+  def self.persistence
+    @persistence ||= Persistence.new(
       model: self,
       dataset: DB[:assets]
     )

@@ -1,4 +1,4 @@
-class PersistedModel
+class Persistence
   attr_reader :model, :dataset
 
   def initialize(model:, dataset:)

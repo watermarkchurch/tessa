@@ -117,7 +117,7 @@ RSpec.describe Asset do
 
   describe "::find" do
     it "raises error if asset doesn't exist by this id in DB" do
-      expect { described_class.find(0) }.to raise_error(PersistedModel::RecordNotFound)
+      expect { described_class.find(0) }.to raise_error(Persistence::RecordNotFound)
     end
 
     context "with an existing asset" do

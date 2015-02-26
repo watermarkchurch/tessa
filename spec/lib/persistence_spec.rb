@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe PersistedModel do
+RSpec.describe Persistence do
   subject(:persisted) { described_class.new(args) }
   let(:model) {
     Class.new do
@@ -60,5 +60,16 @@ RSpec.describe PersistedModel do
       expect(found).to be_a(model)
       expect(found.args).to eq(:record)
     end
+  end
+
+  describe "#create" do
+    it "calls insert on dataset with attrs"
+    it "returns instance of model with attrs"
+  end
+
+  describe "#update" do
+  end
+
+  describe "#delete" do
   end
 end
