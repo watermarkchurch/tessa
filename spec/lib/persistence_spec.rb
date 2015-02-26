@@ -63,13 +63,51 @@ RSpec.describe Persistence do
   end
 
   describe "#create" do
-    it "calls insert on dataset with attrs"
-    it "returns instance of model with attrs"
+    it "initializes an instance of model with attrs"
+
+    shared_examples_for "successful create" do
+      it "inserts the value of attributes into the dataset"
+      it "returns the instance"
+    end
+
+    context "when instance responds_to valid? and it is true" do
+      it_behaves_like "successful create"
+    end
+
+    context "when instance does not respond_to valid?" do
+      it_behaves_like "successful create"
+    end
+
+    context "when instance responds_to valid? and it is false" do
+      it "does not insert into dataset"
+      it "returns falsey"
+    end
   end
 
   describe "#update" do
+    it "initializes a new instance of model with attrs merged onto attributes"
+
+    shared_examples_for "successful update" do
+      it "updates the record matching id with attrs in dataset"
+      it "returns the new instance"
+    end
+
+    context "when new instance responds_to valid? and it is true" do
+      it_behaves_like "successful update"
+    end
+
+    context "when new instance doesn't respond_to valid?" do
+      it_behaves_like "successful update"
+    end
+
+    context "when new instance responds_to valid? and it is false" do
+      it "does not update the record in the dataset"
+      it "returns falsey"
+    end
   end
 
   describe "#delete" do
+    it "calls delete for this record in the dataset"
+    it "returns truthy"
   end
 end
