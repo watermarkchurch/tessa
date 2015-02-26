@@ -12,6 +12,15 @@ class Persistence
     raise RecordNotFound
   end
 
+  def create(attrs)
+    instance = model.new attrs
+    if !instance.respond_to?(:valid?) || instance.valid?
+      instance.id = dataset.insert(attrs)
+      instance
+    else
+      false
+    end
+  end
 
   class RecordNotFound < StandardError; end
 end
