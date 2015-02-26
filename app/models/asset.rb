@@ -1,7 +1,5 @@
 class Asset
-  attr_reader :id
-  attr_reader :strategy, :uid, :acl
-  attr_reader :status_id, :meta
+  include Virtus.model
 
   STATUSES = {
     pending: 1,
@@ -11,18 +9,15 @@ class Asset
   }
   ID_TO_STATUSES = STATUSES.invert
 
-  def initialize(id: nil,
-                 strategy:,
-                 uid:,
-                 acl:,
-                 status_id: 1,
-                 meta: {})
-    @id = id
-    @strategy = strategy
-    @uid = uid
-    @acl = acl
-    @status_id = status_id
-    @meta = meta
+  attribute :id, Integer
+  attribute :strategy, String
+  attribute :uid, String
+  attribute :acl, String
+  attribute :status_id, Integer, default: STATUSES[:pending]
+  attribute :meta, Hash, default: {}
+
+  def valid?
+    strategy && uid && acl
   end
 
   def status

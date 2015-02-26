@@ -40,30 +40,11 @@ RSpec.describe Asset do
       end
     end
 
-    shared_examples_for "raises argument error" do
-      it { expect { asset }.to raise_error(ArgumentError) }
-    end
-
     context "without :id" do
       before { args.delete(:id) }
       it "defaults to nil" do
         expect(asset.id).to be_nil
       end
-    end
-
-    context "without :strategy" do
-      before { args.delete(:strategy) }
-      it_behaves_like "raises argument error"
-    end
-
-    context "without :uid" do
-      before { args.delete(:uid) }
-      it_behaves_like "raises argument error"
-    end
-
-    context "without :acl" do
-      before { args.delete(:acl) }
-      it_behaves_like "raises argument error"
     end
 
     context "without :status_id" do
@@ -108,6 +89,29 @@ RSpec.describe Asset do
       it "returns :completed" do
         expect(asset.status).to eq(:deleted)
       end
+    end
+  end
+
+  describe "#valid?" do
+    subject(:valid?) { asset.valid? }
+
+    context "with all args" do
+      it { is_expected.to be_truthy }
+    end
+
+    context "without :strategy" do
+      before { args.delete(:strategy) }
+      it { is_expected.to be_falsey }
+    end
+
+    context "without :uid" do
+      before { args.delete(:uid) }
+      it { is_expected.to be_falsey }
+    end
+
+    context "without :acl" do
+      before { args.delete(:acl) }
+      it { is_expected.to be_falsey }
     end
   end
 

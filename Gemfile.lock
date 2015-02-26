@@ -10,10 +10,20 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
     coderay (1.1.0)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
     dotenv (1.0.2)
+    equalizer (0.0.9)
     fabrication (2.12.2)
+    ice_nine (0.11.1)
     method_source (0.8.2)
     pg (0.18.1)
     pry (0.10.1)
@@ -44,8 +54,14 @@ GEM
       pg (>= 0.8.0)
       sequel (>= 3.39.0)
     slop (3.6.0)
+    thread_safe (0.3.4)
     tilt (2.0.1)
     timecop (0.7.1)
+    virtus (1.0.4)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
 
 PLATFORMS
   ruby
@@ -62,3 +78,4 @@ DEPENDENCIES
   sequel_pg (~> 1.6.11)
   sinatra (~> 1.4.5)!
   timecop (~> 0.7.1)
+  virtus (~> 1.0.4)
