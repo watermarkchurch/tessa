@@ -35,8 +35,27 @@ RSpec.describe AssetsController, type: :controller do
       expect(json['meta']).to eq(asset.meta)
     end
 
-    it "returns signed private_url"
-    it "returns public_url"
+    it "returns signed private_url" do
+      expect(json['private_url']).to be_a(String)
+    end
+
+    it "returns public_url" do
+      expect(json['public_url']).to be_a(String)
+    end
+  end
+
+  shared_examples_for "asset not found" do
+    it "returns 404" do
+      expect(response.status).to eq(404)
+    end
+
+    it "returns valid json" do
+      expect { json }.to_not raise_error
+    end
+
+    it "sets content_type to application/json" do
+      expect(response.headers["Content-Type"]).to match(%r'application/json')
+    end
   end
 
   describe "PATCH /:id/completed" do
@@ -61,18 +80,7 @@ RSpec.describe AssetsController, type: :controller do
 
     context "with a non-existant asset" do
       before { run_request(0) }
-
-      it "returns 404" do
-        expect(response.status).to eq(404)
-      end
-
-      it "returns valid json" do
-        expect { json }.to_not raise_error
-      end
-
-      it "sets content_type to application/json" do
-        expect(response.headers["Content-Type"]).to match(%r'application/json')
-      end
+      it_behaves_like "asset not found"
     end
 
     def run_request(id=asset.id)

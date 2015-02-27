@@ -25,6 +25,8 @@ class AssetsController < Sinatra::Base
       acl: asset.acl,
       strategy: asset.strategy,
       meta: asset.meta,
+      public_url: "URL",
+      private_url: "URL",
     }.to_json
   end
 end
