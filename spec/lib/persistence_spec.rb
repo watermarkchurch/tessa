@@ -177,7 +177,20 @@ RSpec.describe Persistence do
   end
 
   describe "#delete" do
-    it "calls delete for this record in the dataset"
-    it "returns truthy"
+    subject(:delete_call) { persistence.delete(instance) }
+    let(:instance) { double(:instance, id: 123) }
+
+    before do
+      expect(dataset).to receive(:where).with(id: 123).and_return(dataset).ordered
+      expect(dataset).to receive(:delete).and_return(1)
+    end
+
+    it "calls delete for this record in the dataset" do
+      delete_call
+    end
+
+    it "passes on the return value from #delete" do
+      expect(delete_call).to eq(1)
+    end
   end
 end

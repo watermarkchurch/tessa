@@ -31,6 +31,10 @@ class Persistence
     end
   end
 
+  def delete(instance)
+    dataset.where(id: instance.id).delete
+  end
+
   class RecordNotFound < StandardError; end
 
   private
