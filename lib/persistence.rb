@@ -14,7 +14,7 @@ class Persistence
 
   def create(attrs)
     instance = model.new attrs
-    if !instance.respond_to?(:valid?) || instance.valid?
+    if instance_valid?(instance)
       instance.id = dataset.insert(instance.attributes)
       instance
     else
@@ -22,5 +22,20 @@ class Persistence
     end
   end
 
+  def update(instance, attrs)
+    instance.attributes = attrs
+    if instance_valid?(instance)
+      dataset.where(id: instance.id).update(instance.attributes)
+    else
+      0
+    end
+  end
+
   class RecordNotFound < StandardError; end
+
+  private
+
+  def instance_valid?(instance)
+    !instance.respond_to?(:valid?) || instance.valid?
+  end
 end

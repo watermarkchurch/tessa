@@ -63,6 +63,7 @@ RSpec.describe Persistence do
   end
 
   describe "#create" do
+    subject(:create_call) { persistence.create(:attrs) }
     let(:instance) { double(:model_instance, valid?: false) }
 
     before do
@@ -70,11 +71,10 @@ RSpec.describe Persistence do
     end
 
     it "initializes an instance of model with attrs" do
-      persistence.create(:attrs)
+      create_call
     end
 
     shared_examples_for "successful create" do
-      subject(:create_call) { persistence.create(:attrs) }
 
       before do
         expect(instance).to receive(:attributes).and_return(:instance_attrs)
@@ -91,7 +91,7 @@ RSpec.describe Persistence do
       end
 
       it "returns the instance" do
-        expect(persistence.create(:attrs)).to eq(instance)
+        expect(create_call).to eq(instance)
       end
     end
 
@@ -110,24 +110,52 @@ RSpec.describe Persistence do
 
       it "does not insert into dataset" do
         expect(dataset).to_not receive(:insert)
-        persistence.create(:attrs)
+        create_call
       end
 
       it "returns falsey" do
-        expect(persistence.create(:attrs)).to be_falsey
+        expect(create_call).to be_falsey
       end
     end
   end
 
   describe "#update" do
-    it "initializes a new instance of model with attrs merged onto attributes"
+    subject(:update_call) { persistence.update(instance, :attrs) }
+    let(:instance) {
+      double(
+        :model_instance,
+        id: 123,
+        attributes: :instance_attrs,
+        "attributes=" => nil,
+      )
+    }
+
+    before do
+    end
+
+    it "assigns the attributes on the instance" do
+      allow(instance).to receive(:valid?).and_return(false)
+      expect(instance).to receive(:attributes=).with(:attrs)
+      update_call
+    end
 
     shared_examples_for "successful update" do
-      it "updates the record matching id with attrs in dataset"
-      it "returns the new instance"
+      before do
+        expect(dataset).to receive(:where).with(id: 123).and_return(dataset).ordered
+        expect(dataset).to receive(:update).with(:instance_attrs).and_return(1).ordered
+      end
+
+      it "updates the record matching id with attrs in dataset" do
+        update_call
+      end
+
+      it "passes update return value through" do
+        expect(update_call).to eq(1)
+      end
     end
 
     context "when new instance responds_to valid? and it is true" do
+      before { expect(instance).to receive(:valid?).and_return(true) }
       it_behaves_like "successful update"
     end
 
@@ -136,8 +164,15 @@ RSpec.describe Persistence do
     end
 
     context "when new instance responds_to valid? and it is false" do
-      it "does not update the record in the dataset"
-      it "returns falsey"
+      before { expect(instance).to receive(:valid?).and_return(false) }
+
+      it "does not update the record in the dataset" do
+        update_call
+      end
+
+      it "returns 0" do
+        expect(update_call).to eq(0)
+      end
     end
   end
 
