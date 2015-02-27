@@ -9,6 +9,10 @@ else
   Dotenv.load
 end
 
+DATABASE_URL ||= ENV['DATABASE_URL'] || fail("You must configure DATABASE_URL envvar")
+DB = Sequel.connect(DATABASE_URL)
+DB.extension :pg_json
+
 APP_ROOT = File.expand_path("../..", __FILE__)
 PRELOAD_PATHS = %w[
   lib
@@ -25,8 +29,6 @@ PRELOAD_PATHS.each do |path|
     require File.basename(file)
   end
 end
-
-DATABASE_URL ||= ENV['DATABASE_URL'] || fail("You must configure DATABASE_URL envvar")
 
 require "#{APP_ROOT}/config/application"
 
