@@ -1,14 +1,11 @@
 class Upload
-  attr_reader :strategy, :acl
-  attr_reader :name, :size, :mime_type
+  include Virtus.model
 
-  def initialize(args={})
-    @strategy = args.fetch('strategy') { "default" }
-    @acl = args.fetch('acl') { "private" }
-    @name = args['name']
-    @size = args['size'].to_i
-    @mime_type = args['mime_type']
-  end
+  attribute :strategy, String, default: "default"
+  attribute :acl, String, default: "private"
+  attribute :name, String
+  attribute :size, Integer, default: 0
+  attribute :mime_type, String
 
   def save(asset_factory: CreatesAsset)
     @asset ||= asset_factory.call(asset_attributes)
