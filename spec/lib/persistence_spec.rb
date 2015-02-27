@@ -63,11 +63,12 @@ RSpec.describe Persistence do
   end
 
   describe "#create" do
-    subject(:create_call) { persistence.create(:attrs) }
+    subject(:create_call) { persistence.create(attrs) }
     let(:instance) { double(:model_instance, valid?: false) }
+    let(:attrs) { {} }
 
     before do
-      expect(model).to receive(:new).with(:attrs).and_return(instance)
+      expect(model).to receive(:new).with(attrs).and_return(instance)
     end
 
     it "initializes an instance of model with attrs" do
@@ -75,19 +76,28 @@ RSpec.describe Persistence do
     end
 
     shared_examples_for "successful create" do
-
+      let(:instance_attributes) { { instance: true } }
       before do
-        expect(instance).to receive(:attributes).and_return(:instance_attrs)
-        expect(dataset).to receive(:insert).with(:instance_attrs).and_return(:id)
+        expect(instance).to receive(:attributes).and_return(instance_attributes)
+        allow(dataset).to receive(:insert).with(instance_attributes).and_return(:id)
         expect(instance).to receive(:id=).with(:id)
       end
 
       it "inserts the value of attributes into the dataset" do
+        expect(dataset).to receive(:insert).with(instance_attributes).and_return(:id)
         create_call
       end
 
       it "sets id on the instance" do
         create_call
+      end
+
+      context ":id key is present in instance attributes" do
+        let(:instance_attributes) { { id: 1, a: 2 } }
+        it "removes :id" do
+          expect(dataset).to receive(:insert).with(a: 2).and_return(:id)
+          create_call
+        end
       end
 
       it "returns the instance" do
@@ -120,33 +130,40 @@ RSpec.describe Persistence do
   end
 
   describe "#update" do
-    subject(:update_call) { persistence.update(instance, :attrs) }
+    subject(:update_call) { persistence.update(instance, attrs) }
+    let(:attrs) { {} }
     let(:instance) {
       double(
         :model_instance,
         id: 123,
-        attributes: :instance_attrs,
+        attributes: { instance: true },
         "attributes=" => nil,
       )
     }
 
-    before do
-    end
-
     it "assigns the attributes on the instance" do
       allow(instance).to receive(:valid?).and_return(false)
-      expect(instance).to receive(:attributes=).with(:attrs)
+      expect(instance).to receive(:attributes=).with(attrs)
       update_call
     end
 
     shared_examples_for "successful update" do
       before do
-        expect(dataset).to receive(:where).with(id: 123).and_return(dataset).ordered
-        expect(dataset).to receive(:update).with(:instance_attrs).and_return(1).ordered
+        expect(dataset).to receive(:where).with(id: 123).and_return(dataset)
+        allow(dataset).to receive(:update).with(instance.attributes).and_return(1)
       end
 
       it "updates the record matching id with attrs in dataset" do
+        expect(dataset).to receive(:update).with(instance.attributes).and_return(1)
         update_call
+      end
+
+      context "with :id key in instance attributes" do
+        it "removes the :id" do
+          expect(instance).to receive(:attributes).and_return(id: 1, a: 2)
+          expect(dataset).to receive(:update).with(a: 2).and_return(1)
+          update_call
+        end
       end
 
       it "passes update return value through" do

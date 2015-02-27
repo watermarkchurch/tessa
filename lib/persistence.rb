@@ -1,6 +1,8 @@
 class Persistence
   attr_reader :model, :dataset
 
+  FILTERED_ATTRIBUTES = %i[id]
+
   def initialize(model:, dataset:)
     @model = model
     @dataset = dataset
@@ -15,7 +17,7 @@ class Persistence
   def create(attrs)
     instance = model.new attrs
     if instance_valid?(instance)
-      instance.id = dataset.insert(instance.attributes)
+      instance.id = dataset.insert(instance_attributes(instance))
       instance
     else
       false
@@ -25,7 +27,7 @@ class Persistence
   def update(instance, attrs)
     instance.attributes = attrs
     if instance_valid?(instance)
-      dataset.where(id: instance.id).update(instance.attributes)
+      dataset.where(id: instance.id).update(instance_attributes(instance))
     else
       0
     end
@@ -41,5 +43,11 @@ class Persistence
 
   def instance_valid?(instance)
     !instance.respond_to?(:valid?) || instance.valid?
+  end
+
+  def instance_attributes(instance)
+    instance.attributes.reject { |k, _|
+      FILTERED_ATTRIBUTES.include?(k)
+    }
   end
 end
