@@ -77,7 +77,8 @@ RSpec.describe Persistence do
       subject(:create_call) { persistence.create(:attrs) }
 
       before do
-        expect(dataset).to receive(:insert).with(:attrs).and_return(:id)
+        expect(instance).to receive(:attributes).and_return(:instance_attrs)
+        expect(dataset).to receive(:insert).with(:instance_attrs).and_return(:id)
         expect(instance).to receive(:id=).with(:id)
       end
 

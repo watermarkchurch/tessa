@@ -15,7 +15,7 @@ class Persistence
   def create(attrs)
     instance = model.new attrs
     if !instance.respond_to?(:valid?) || instance.valid?
-      instance.id = dataset.insert(attrs)
+      instance.id = dataset.insert(instance.attributes)
       instance
     else
       false
