@@ -20,7 +20,7 @@ RSpec.describe AssetsController, type: :controller do
     end
 
     it "returns status" do
-      expect(json['status']).to eq('completed')
+      expect(json['status']).to eq(asset.status.to_s)
     end
 
     it "returns acl" do
@@ -74,7 +74,10 @@ RSpec.describe AssetsController, type: :controller do
       end
 
       it_behaves_like "successful asset update" do
-        before { run_request }
+        before {
+          run_request
+          asset.status_id = Asset::STATUSES[:completed]
+        }
       end
     end
 
@@ -85,6 +88,39 @@ RSpec.describe AssetsController, type: :controller do
 
     def run_request(id=asset.id)
       patch "/#{id}/completed"
+    end
+  end
+
+  describe "PATCH /:id/cancelled" do
+    context "with an existing asset" do
+      let!(:asset) { create(:asset) }
+
+      it "finds the asset associated with this id" do
+        expect(Asset).to receive(:find).with(asset.id.to_s).and_return(asset)
+        run_request
+      end
+
+      it "updates asset status to :cancelled" do
+        run_request
+        new_asset = Asset.find(asset.id)
+        expect(new_asset.status).to eq(:cancelled)
+      end
+
+      it_behaves_like "successful asset update" do
+        before {
+          run_request
+          asset.status_id = Asset::STATUSES[:cancelled]
+        }
+      end
+    end
+
+    context "with a non-existant asset" do
+      before { run_request(0) }
+      it_behaves_like "asset not found"
+    end
+
+    def run_request(id=asset.id)
+      patch "/#{id}/cancelled"
     end
   end
 

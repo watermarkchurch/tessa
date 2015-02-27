@@ -10,12 +10,22 @@ class AssetsController < Sinatra::Base
   end
 
   patch "/:id/completed" do
-    Asset.persistence.update(asset, status_id: Asset::STATUSES[:completed])
+    set_asset_status(:completed)
+    asset_json
+  end
+
+  patch "/:id/cancelled" do
+    set_asset_status(:cancelled)
     asset_json
   end
 
   def asset
     @asset ||= Asset.find(params['id'])
+  end
+
+  def set_asset_status(status)
+    Asset.persistence
+      .update(asset, status_id: Asset::STATUSES[status])
   end
 
   def asset_json
