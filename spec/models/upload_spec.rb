@@ -114,20 +114,31 @@ RSpec.describe Upload do
   describe "#to_json" do
     subject(:parsed) { JSON.parse(upload.to_json) }
 
-    it "returns an upload_url" do
-      expect(parsed['upload_url']).to be_truthy
+    context "after #save called" do
+      before { upload.save }
+
+      it "returns an upload_url" do
+        expect(parsed['upload_url']).to be_truthy
+      end
+
+      it "returns an upload_method" do
+        expect(parsed['upload_method']).to be_truthy
+      end
+
+      it "returns a success_url" do
+        expect(parsed['success_url']).to be_truthy
+      end
+
+      it "returns a cancel_url" do
+        expect(parsed['cancel_url']).to be_truthy
+      end
     end
 
-    it "returns an upload_method" do
-      expect(parsed['upload_method']).to be_truthy
+    context "#save hasn't been called" do
+      it "raises an exception" do
+        expect { upload.to_json }.to raise_error(RuntimeError)
+      end
     end
 
-    it "returns a success_url" do
-      expect(parsed['success_url']).to be_truthy
-    end
-
-    it "returns a cancel_url" do
-      expect(parsed['cancel_url']).to be_truthy
-    end
   end
 end

@@ -20,10 +20,11 @@ class Upload
   end
 
   def to_json
+    raise "You must call #save before serializing Upload" unless @asset
     {
       upload_url: "url",
       upload_method: "method",
-      success_url: "url",
+      success_url: "/assets/#{@asset.id}/completed",
       cancel_url: "url",
     }.to_json
   end

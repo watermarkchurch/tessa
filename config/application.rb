@@ -1,4 +1,5 @@
 TessaApp = Rack::URLMap.new(
-  "/uploads" => UploadsController
+  "/uploads" => UploadsController,
+  "/assets" => AssetsController,
 )
 
