@@ -1,15 +1,24 @@
 class AssetsController < Sinatra::Base
 
-  error Persistence::RecordNotFound do
+  before do
     content_type "application/json"
+  end
+
+  error Persistence::RecordNotFound do
     status 404
     {}.to_json
   end
 
   patch "/:id/completed" do
-    content_type "application/json"
-    asset = Asset.find(params['id'])
     Asset.persistence.update(asset, status_id: Asset::STATUSES[:completed])
+    asset_json
+  end
+
+  def asset
+    @asset ||= Asset.find(params['id'])
+  end
+
+  def asset_json
     {
       id: asset.id,
       status: asset.status,
@@ -18,5 +27,4 @@ class AssetsController < Sinatra::Base
       meta: asset.meta,
     }.to_json
   end
-
 end
