@@ -78,7 +78,7 @@ RSpec.describe Persistence do
     shared_examples_for "successful create" do
       let(:instance_attributes) { { instance: true } }
       before do
-        expect(instance).to receive(:attributes).and_return(instance_attributes)
+        expect(instance).to receive(:attributes).and_return(instance_attributes).at_least(1)
         allow(dataset).to receive(:insert).with(instance_attributes).and_return(:id)
         expect(instance).to receive(:id=).with(:id)
       end
@@ -131,12 +131,12 @@ RSpec.describe Persistence do
 
   describe "#update" do
     subject(:update_call) { persistence.update(instance, attrs) }
-    let(:attrs) { {} }
+    let(:attrs) { { a: 'new' } }
     let(:instance) {
       double(
         :model_instance,
         id: 123,
-        attributes: { instance: true },
+        attributes: { id: 123, instance: true, a: 'coerced_new' },
         "attributes=" => nil,
       )
     }
@@ -150,11 +150,11 @@ RSpec.describe Persistence do
     shared_examples_for "successful update" do
       before do
         expect(dataset).to receive(:where).with(id: 123).and_return(dataset)
-        allow(dataset).to receive(:update).with(instance.attributes).and_return(1)
+        allow(dataset).to receive(:update).and_return(1)
       end
 
-      it "updates the record matching id with attrs in dataset" do
-        expect(dataset).to receive(:update).with(instance.attributes).and_return(1)
+      it "updates the record with instance's values and attrs's keys" do
+        expect(dataset).to receive(:update).with(a: 'coerced_new').and_return(1)
         update_call
       end
 

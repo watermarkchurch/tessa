@@ -27,7 +27,9 @@ class Persistence
   def update(instance, attrs)
     instance.attributes = attrs
     if instance_valid?(instance)
-      dataset.where(id: instance.id).update(instance_attributes(instance))
+      dataset
+        .where(id: instance.id)
+        .update(instance_attributes(instance, attrs.keys))
     else
       0
     end
@@ -45,9 +47,10 @@ class Persistence
     !instance.respond_to?(:valid?) || instance.valid?
   end
 
-  def instance_attributes(instance)
-    instance.attributes.reject { |k, _|
-      FILTERED_ATTRIBUTES.include?(k)
+  def instance_attributes(instance, subset=instance.attributes.keys)
+    instance.attributes.select { |key, _|
+      !FILTERED_ATTRIBUTES.include?(key) &&
+        subset.include?(key)
     }
   end
 end

@@ -9,7 +9,7 @@ class AssetsController < Sinatra::Base
   patch "/:id/completed" do
     content_type "application/json"
     asset = Asset.find(params['id'])
-    DB[:assets].where(id: asset.id).update(status_id: Asset::STATUSES[:completed])
+    Asset.persistence.update(asset, status_id: Asset::STATUSES[:completed])
     %{{
       "id": #{params['id']},
       "status": "completed"
