@@ -25,7 +25,7 @@ class Upload
       upload_url: "url",
       upload_method: "method",
       success_url: "/assets/#{@asset.id}/completed",
-      cancel_url: "url",
+      cancel_url: "/assets/#{@asset.id}/cancelled",
     }.to_json
   end
 

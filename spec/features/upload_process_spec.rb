@@ -21,7 +21,7 @@ RSpec.feature "Upload process" do
     patch upload['cancel_url']
     expect(response.status).to eq(200)
     asset = JSON.parse(response.body)
-    execpt(asset['status']).to eq("cancelled")
+    expect(asset['status']).to eq("cancelled")
   end
 
   def post_new_upload(params=nil)
