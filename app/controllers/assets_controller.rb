@@ -10,10 +10,13 @@ class AssetsController < Sinatra::Base
     content_type "application/json"
     asset = Asset.find(params['id'])
     Asset.persistence.update(asset, status_id: Asset::STATUSES[:completed])
-    %{{
-      "id": #{params['id']},
-      "status": "completed"
-    }}
+    {
+      id: asset.id,
+      status: asset.status,
+      acl: asset.acl,
+      strategy: asset.strategy,
+      meta: asset.meta,
+    }.to_json
   end
 
 end

@@ -23,11 +23,20 @@ RSpec.describe AssetsController, type: :controller do
       expect(json['status']).to eq('completed')
     end
 
+    it "returns acl" do
+      expect(json['acl']).to eq(asset.acl)
+    end
+
+    it "returns strategy" do
+      expect(json['strategy']).to eq(asset.strategy)
+    end
+
+    it "returns meta" do
+      expect(json['meta']).to eq(asset.meta)
+    end
+
     it "returns signed private_url"
     it "returns public_url"
-    it "returns acl"
-    it "returns strategy"
-    it "returns meta"
   end
 
   describe "PATCH /:id/completed" do
