@@ -1,7 +1,7 @@
 class CreatesAsset
   include Virtus.model
 
-  attribute :dataset, Object, default: -> (*_) { DB[:assets] }
+  attribute :persistence, Object, default: -> (*_) { Asset.persistence }
   attribute :strategy, String, default: "default"
   attribute :acl, String, default: "private"
   attribute :meta, Hash, default: {}
@@ -9,10 +9,9 @@ class CreatesAsset
 
   def call
     return @asset if @asset
-    insert_args = asset_args
-    insert_args[:meta] = Sequel.pg_json(insert_args[:meta])
-    asset_id = dataset.insert(insert_args)
-    @asset = Asset.new(asset_args.merge(id: asset_id))
+    create_args = asset_args
+    create_args[:meta] = Sequel.pg_json(create_args[:meta])
+    @asset = persistence.create(create_args)
   end
 
   def asset_args

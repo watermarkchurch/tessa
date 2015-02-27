@@ -16,7 +16,7 @@ RSpec.describe CreatesAsset do
           acl: "private",
           uid: "uid/123",
           meta: { "foo" => "bar" },
-          dataset: :dataset
+          persistence: :persistence
         }
       }
 
@@ -32,8 +32,8 @@ RSpec.describe CreatesAsset do
         expect(creates_asset.meta).to eq({ "foo" => "bar" })
       end
 
-      it "sets :dataset attribute" do
-        expect(creates_asset.dataset).to eq(:dataset)
+      it "sets :persistence attribute" do
+        expect(creates_asset.persistence).to eq(:persistence)
       end
 
       it "sets :uid attribute" do
@@ -52,8 +52,8 @@ RSpec.describe CreatesAsset do
         expect(creates_asset.acl).to eq("private")
       end
 
-      it "sets :dataset to DB[:assets]" do
-        expect(creates_asset.dataset).to eq(DB[:assets])
+      it "sets :persistence to Asset.persistence" do
+        expect(creates_asset.persistence).to eq(Asset.persistence)
       end
 
       it "sets :meta to {}" do
@@ -73,8 +73,9 @@ RSpec.describe CreatesAsset do
   end
 
   describe "#call" do
-    subject(:creates_asset) { described_class.new(dataset: dataset, uid: uid) }
-    let(:dataset) { double(:dataset, insert: 12345) }
+    subject(:creates_asset) { described_class.new(persistence: persistence, uid: uid) }
+    let(:persistence) { instance_double(Persistence, create: asset) }
+    let(:asset) { instance_double(Asset, record.merge(id: 12345)) }
     let(:uid) { 'my_uid' }
     let(:record) {
       {
@@ -86,31 +87,27 @@ RSpec.describe CreatesAsset do
       }
     }
 
-    it "calls insert on the dataset with mapped fields" do
-      expect(dataset).to receive(:insert).with(record)
+    it "calls create on the persistence obejct with mapped fields" do
+      expect(persistence).to receive(:create).with(record)
       creates_asset.call
     end
 
     it "only runs once per instance" do
-      expect(dataset).to receive(:insert).once
+      expect(persistence).to receive(:create).once
       asset_1 = creates_asset.call
       asset_2 = creates_asset.call
       expect(asset_1.object_id).to eq(asset_2.object_id)
     end
 
     describe "return value" do
-      subject(:asset) { creates_asset.call }
-
-      it "is an Asset instance" do
-        expect(asset).to be_a(Asset)
-      end
+      subject(:call_return) { creates_asset.call }
 
       it "has values set" do
-        expect(asset.id).to eq(12345)
-        expect(asset.strategy).to eq(record[:strategy])
-        expect(asset.acl).to eq(record[:acl])
-        expect(asset.uid).to eq(record[:uid])
-        expect(asset.meta).to eq(record[:meta])
+        expect(call_return.id).to eq(12345)
+        expect(call_return.strategy).to eq(record[:strategy])
+        expect(call_return.acl).to eq(record[:acl])
+        expect(call_return.uid).to eq(record[:uid])
+        expect(call_return.meta).to eq(record[:meta])
       end
     end
   end
