@@ -67,7 +67,7 @@ RSpec.describe CreatesAsset do
         }
         args[:meta] = { "name" => "filename.txt" }
         expect(GeneratesUid).to receive(:call).with(uid_generator_args).and_return(:my_uid)
-        expect(creates_asset.uid).to eq(:my_uid)
+        expect(creates_asset.uid).to eq("my_uid")
       end
     end
   end

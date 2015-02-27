@@ -1,19 +1,11 @@
 class CreatesAsset
-  attr_reader :dataset
-  attr_reader :strategy, :acl, :uid
-  attr_reader :meta
+  include Virtus.model
 
-  def initialize(dataset: DB[:assets],
-                 strategy: "default",
-                 acl: "private",
-                 meta: {},
-                 uid: nil)
-    @dataset = dataset
-    @strategy = strategy
-    @acl = acl
-    @meta = meta
-    @uid = uid || generate_uid
-  end
+  attribute :dataset, Object, default: -> (*_) { DB[:assets] }
+  attribute :strategy, String, default: "default"
+  attribute :acl, String, default: "private"
+  attribute :meta, Hash, default: {}
+  attribute :uid, String, default: :generate_uid
 
   def call
     return @asset if @asset
