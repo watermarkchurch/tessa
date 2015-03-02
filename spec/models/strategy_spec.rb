@@ -82,7 +82,7 @@ RSpec.describe Strategy do
     end
   end
 
-  context "#client" do
+  describe "#client" do
     let(:client) { Aws::S3::Client }
 
     it "calls Aws::S3::Client with config" do
@@ -99,7 +99,7 @@ RSpec.describe Strategy do
     end
   end
 
-  context "#resource" do
+  describe "#resource" do
     let(:resource) { Aws::S3::Resource }
 
     it "calls Aws::S3::Resource with client" do
@@ -112,7 +112,7 @@ RSpec.describe Strategy do
     end
   end
 
-  context "#object" do
+  describe "#object" do
     it "fetches the object off of the #resource" do
       bucket = double(:bucket)
       expect(strategy.resource)
@@ -122,7 +122,7 @@ RSpec.describe Strategy do
     end
   end
 
-  context "::strategies" do
+  describe "::strategies" do
     it "returns a Hash" do
       expect(described_class.strategies).to be_a(Hash)
     end
@@ -133,7 +133,7 @@ RSpec.describe Strategy do
     end
   end
 
-  context "::add" do
+  describe "::add" do
     subject(:subclass) { Class.new(described_class) }
     it "takes a symbol followed by a hash" do
       expect {

@@ -11,7 +11,7 @@ RSpec.describe StrategyURL do
     }
   }
 
-  context "#initialize" do
+  describe "#initialize" do
     context "with all args" do
       it "sets :strategy" do
         expect(url.strategy).to eq(strategy)
@@ -37,7 +37,7 @@ RSpec.describe StrategyURL do
     end
   end
 
-  context "#object" do
+  describe "#object" do
     it "calls strategy.object with uid" do
       url.object
       expect(strategy).to have_received(:object).with(uid)
