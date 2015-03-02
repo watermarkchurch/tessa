@@ -82,6 +82,46 @@ RSpec.describe Strategy do
     end
   end
 
+  context "#client" do
+    let(:client) { Aws::S3::Client }
+
+    it "calls Aws::S3::Client with config" do
+      config = {
+        region: strategy.region,
+        credentials: strategy.credentials,
+      }
+      expect(client).to receive(:new).with(config).and_return(:val)
+      expect(strategy.client).to eq(:val)
+    end
+
+    it "caches the value" do
+      expect(strategy.client.object_id).to eq(strategy.client.object_id)
+    end
+  end
+
+  context "#resource" do
+    let(:resource) { Aws::S3::Resource }
+
+    it "calls Aws::S3::Resource with client" do
+      expect(resource).to receive(:new).with(client: strategy.client).and_return(:val)
+      expect(strategy.resource).to eq(:val)
+    end
+
+    it "caches the value" do
+      expect(strategy.resource.object_id).to eq(strategy.resource.object_id)
+    end
+  end
+
+  context "#object" do
+    it "fetches the object off of the #resource" do
+      bucket = double(:bucket)
+      expect(strategy.resource)
+        .to receive(:bucket).with(strategy.bucket).and_return(bucket)
+      expect(bucket).to receive(:object).with('prefix/uid/1').and_return(:object)
+      expect(strategy.object('uid/1')).to eq(:object)
+    end
+  end
+
   context "::strategies" do
     it "returns a Hash" do
       expect(described_class.strategies).to be_a(Hash)

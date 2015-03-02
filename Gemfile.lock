@@ -10,10 +10,20 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    aws-sdk (2.0.25)
+      aws-sdk-resources (= 2.0.25)
+    aws-sdk-core (2.0.25)
+      builder (~> 3.0)
+      jmespath (~> 1.0)
+      multi_json (~> 1.0)
+      multi_xml (~> 0.5)
+    aws-sdk-resources (2.0.25)
+      aws-sdk-core (= 2.0.25)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    builder (3.2.2)
     coderay (1.1.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -24,7 +34,11 @@ GEM
     equalizer (0.0.9)
     fabrication (2.12.2)
     ice_nine (0.11.1)
+    jmespath (1.0.2)
+      multi_json (~> 1.0)
     method_source (0.8.2)
+    multi_json (1.10.1)
+    multi_xml (0.5.5)
     pg (0.18.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -67,6 +81,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-sdk (~> 2)
   dotenv (~> 1.0.2)
   fabrication (~> 2.12.2)
   pg (~> 0.18.1)

@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem 'aws-sdk', '~>2'
 gem 'dotenv', '~>1.0.2'
 gem 'pg', '~>0.18.1'
 gem 'sinatra', '~>1.4.5', github: "sinatra/sinatra"
