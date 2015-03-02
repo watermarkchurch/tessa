@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe AssetsController, type: :controller do
 
-  shared_examples_for "successful asset update" do
+  shared_examples_for "successful asset response" do
     it "returns success" do
       expect(response.status).to eq(200)
     end
@@ -73,7 +73,7 @@ RSpec.describe AssetsController, type: :controller do
         expect(new_asset.status).to eq(:completed)
       end
 
-      it_behaves_like "successful asset update" do
+      it_behaves_like "successful asset response" do
         before {
           run_request
           asset.status_id = Asset::STATUSES[:completed]
@@ -106,7 +106,7 @@ RSpec.describe AssetsController, type: :controller do
         expect(new_asset.status).to eq(:cancelled)
       end
 
-      it_behaves_like "successful asset update" do
+      it_behaves_like "successful asset response" do
         before {
           run_request
           asset.status_id = Asset::STATUSES[:cancelled]
@@ -124,4 +124,22 @@ RSpec.describe AssetsController, type: :controller do
     end
   end
 
+  describe "GET /:id" do
+    context "with an existing asset" do
+      let!(:asset) { create(:asset) }
+
+      it "finds the asset associated with this id" do
+        expect(Asset).to receive(:find).with(asset.id.to_s).and_return(asset)
+        run_request
+      end
+
+      it_behaves_like "successful asset response" do
+        before { run_request }
+      end
+    end
+
+    def run_request(id=asset.id)
+      get "/#{id}"
+    end
+  end
 end

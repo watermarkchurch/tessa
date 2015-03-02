@@ -19,6 +19,10 @@ class AssetsController < Sinatra::Base
     asset_json
   end
 
+  get "/:id" do
+    asset_json
+  end
+
   def asset
     @asset ||= Asset.find(params['id'])
   end
