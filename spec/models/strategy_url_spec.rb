@@ -49,4 +49,53 @@ RSpec.describe StrategyURL do
     end
   end
 
+  shared_examples_for "signed url" do
+    let(:object) { spy(:object) }
+    before { expect(strategy).to receive(:object).and_return(object) }
+
+    context "with no args" do
+      it "calls #presigned_url with method_name and default hash" do
+        url.public_send(method)
+        expect(object).to have_received(:presigned_url).with(method, {})
+      end
+    end
+
+    context "with args hash" do
+      it "calls #presigned_url with method_name and passed argument" do
+        url.public_send(method, foo: 1)
+        expect(object).to have_received(:presigned_url).with(method, foo: 1)
+      end
+    end
+  end
+
+  describe "#get" do
+    let(:method) { :get }
+    include_examples "signed url"
+  end
+
+  describe "#put" do
+    let(:method) { :put }
+    include_examples "signed url"
+  end
+
+  describe "#head" do
+    let(:method) { :head }
+    include_examples "signed url"
+  end
+
+  describe "#delete" do
+    let(:method) { :delete }
+    include_examples "signed url"
+  end
+
+  describe "#public" do
+    let(:object) { spy(:object) }
+    before { expect(strategy).to receive(:object).and_return(object) }
+
+    it "calls #presigned_url with method_name and default hash" do
+      url.public
+      expect(object).to have_received(:public_url)
+    end
+  end
+
 end
