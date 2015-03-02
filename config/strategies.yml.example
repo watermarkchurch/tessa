@@ -1,0 +1,8 @@
+# 1. Copy this file to config/strategies.yml
+# 2. Define your strategies here (See the Strategy class for available fields)
+default:
+  bucket: test-bucket
+  prefix: test-files/
+
+videos:
+  bucket: video-bucket
