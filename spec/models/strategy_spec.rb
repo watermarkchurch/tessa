@@ -17,7 +17,7 @@ RSpec.describe Strategy do
   describe "#initialize" do
     context "all attributes set" do
       it "sets :name to attribute" do
-        expect(strategy.name).to eq("default")
+        expect(strategy.name).to eq(:default)
       end
 
       it "sets :bucket to attribute" do
@@ -80,7 +80,33 @@ RSpec.describe Strategy do
         expect(strategy.credentials).to eq({})
       end
     end
-
   end
 
+  context "::strategies" do
+    it "returns a Hash" do
+      expect(described_class.strategies).to be_a(Hash)
+    end
+
+    it "caches the Hash" do
+      expect(described_class.strategies.object_id)
+        .to eq(described_class.strategies.object_id)
+    end
+  end
+
+  context "::add" do
+    subject(:subclass) { Class.new(described_class) }
+    it "takes a symbol followed by a hash" do
+      expect {
+        subclass.add(:foo, {})
+      }.not_to raise_error
+    end
+
+    it "stores the strategy in the strategies Hash" do
+      subclass.add('my_strategy', ttl: 100)
+      strategy = subclass.strategies[:my_strategy]
+      expect(strategy).to be_a(described_class)
+      expect(strategy.name).to eq(:my_strategy)
+      expect(strategy.ttl).to eq(100)
+    end
+  end
 end
