@@ -12,12 +12,11 @@ class Asset
   attribute :id, Integer
   attribute :strategy, String
   attribute :uid, String
-  attribute :acl, String
   attribute :status_id, Integer, default: STATUSES[:pending]
   attribute :meta, Object, default: {}
 
   def valid?
-    strategy && uid && acl
+    strategy && uid
   end
 
   def status

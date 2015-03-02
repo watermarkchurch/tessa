@@ -2,7 +2,6 @@ class Upload
   include Virtus.model
 
   attribute :strategy, String, default: "default"
-  attribute :acl, String, default: "private"
   attribute :name, String
   attribute :size, Integer, default: 0
   attribute :mime_type, String
@@ -31,7 +30,6 @@ class Upload
   def asset_attributes
     {
       strategy: strategy,
-      acl: acl,
       meta: {
         name: name,
         size: size,

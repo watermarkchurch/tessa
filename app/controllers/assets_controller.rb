@@ -36,7 +36,6 @@ class AssetsController < Sinatra::Base
     {
       id: asset.id,
       status: asset.status,
-      acl: asset.acl,
       strategy: asset.strategy,
       meta: asset.meta,
       public_url: "URL",

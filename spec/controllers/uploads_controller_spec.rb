@@ -54,7 +54,6 @@ RSpec.describe UploadsController, type: :controller do
       let(:params) {
         {
           "strategy" => "foo",
-          "acl" => "private",
           "name" => "filename",
           "size" => "123",
           "mime_type" => "text/plain",

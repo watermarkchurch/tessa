@@ -6,7 +6,6 @@ RSpec.describe Upload do
   let(:valid_attrs) {
     {
       "strategy" => "temp",
-      "acl" => "public",
       "name" => "foo.txt",
       "size" => "3",
       "mime_type" => "text/plain",
@@ -17,10 +16,6 @@ RSpec.describe Upload do
     context "with all attributes set" do
       it "sets strategy to attribute" do
         expect(upload.strategy).to eq("temp")
-      end
-
-      it "sets acl to attribute" do
-        expect(upload.acl).to eq("public")
       end
 
       it "sets name to attribute" do
@@ -43,10 +38,6 @@ RSpec.describe Upload do
         expect(upload.strategy).to eq("default")
       end
 
-      it "sets acl to 'private'" do
-        expect(upload.acl).to eq("private")
-      end
-
       it "doesn't set name or mime_type" do
         expect(upload.name).to be_nil
         expect(upload.mime_type).to be_nil
@@ -62,7 +53,6 @@ RSpec.describe Upload do
     let(:asset_attrs) {
       {
         strategy: "temp",
-        acl: "public",
         meta: {
           name: "foo.txt",
           size: 3,

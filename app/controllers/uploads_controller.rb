@@ -5,7 +5,6 @@ class UploadsController < Sinatra::Base
 
   UPLOAD_PARAMS = %w[
     strategy
-    acl
     name
     size
     mime_type

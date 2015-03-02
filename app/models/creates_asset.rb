@@ -3,7 +3,6 @@ class CreatesAsset
 
   attribute :persistence, Object, default: -> (*_) { Asset.persistence }
   attribute :strategy, String, default: "default"
-  attribute :acl, String, default: "private"
   attribute :meta, Hash, default: {}
   attribute :uid, String, default: :generate_uid
 
@@ -17,7 +16,6 @@ class CreatesAsset
   def asset_args
     {
       strategy: strategy,
-      acl: acl,
       uid: uid,
       meta: meta,
       status_id: 1,

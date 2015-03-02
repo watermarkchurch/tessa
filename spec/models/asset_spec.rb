@@ -7,7 +7,6 @@ RSpec.describe Asset do
       id: 123,
       strategy: "mystrat",
       uid: "some/path/123",
-      acl: "public",
       status_id: 1,
       meta: { "foo" => "bar" }
     }
@@ -25,10 +24,6 @@ RSpec.describe Asset do
 
       it "sets :uid to attribute" do
         expect(asset.uid).to eq("some/path/123")
-      end
-
-      it "sets :acl to attribute" do
-        expect(asset.acl).to eq("public")
       end
 
       it "sets :status_id to attribute" do
@@ -106,11 +101,6 @@ RSpec.describe Asset do
 
     context "without :uid" do
       before { args.delete(:uid) }
-      it { is_expected.to be_falsey }
-    end
-
-    context "without :acl" do
-      before { args.delete(:acl) }
       it { is_expected.to be_falsey }
     end
   end

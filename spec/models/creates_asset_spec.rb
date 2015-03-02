@@ -13,7 +13,6 @@ RSpec.describe CreatesAsset do
       let(:args) {
         {
           strategy: "mystrat",
-          acl: "private",
           uid: "uid/123",
           meta: { "foo" => "bar" },
           persistence: :persistence
@@ -22,10 +21,6 @@ RSpec.describe CreatesAsset do
 
       it "sets :strategy attribute" do
         expect(creates_asset.strategy).to eq("mystrat")
-      end
-
-      it "sets :acl attribute" do
-        expect(creates_asset.acl).to eq("private")
       end
 
       it "sets :meta attribute" do
@@ -46,10 +41,6 @@ RSpec.describe CreatesAsset do
 
       it "sets :strategy to 'default'" do
         expect(creates_asset.strategy).to eq("default")
-      end
-
-      it "sets :acl to 'private'" do
-        expect(creates_asset.acl).to eq("private")
       end
 
       it "sets :persistence to Asset.persistence" do
@@ -80,7 +71,6 @@ RSpec.describe CreatesAsset do
     let(:record) {
       {
         strategy: 'default',
-        acl: 'private',
         uid: uid,
         meta: {},
         status_id: 1,
@@ -105,7 +95,6 @@ RSpec.describe CreatesAsset do
       it "has values set" do
         expect(call_return.id).to eq(12345)
         expect(call_return.strategy).to eq(record[:strategy])
-        expect(call_return.acl).to eq(record[:acl])
         expect(call_return.uid).to eq(record[:uid])
         expect(call_return.meta).to eq(record[:meta])
       end

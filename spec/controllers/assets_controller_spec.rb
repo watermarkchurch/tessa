@@ -23,10 +23,6 @@ RSpec.describe AssetsController, type: :controller do
       expect(json['status']).to eq(asset.status.to_s)
     end
 
-    it "returns acl" do
-      expect(json['acl']).to eq(asset.acl)
-    end
-
     it "returns strategy" do
       expect(json['strategy']).to eq(asset.strategy)
     end

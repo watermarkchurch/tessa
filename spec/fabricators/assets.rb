@@ -3,6 +3,5 @@ Fabricator(:asset) do
 
   strategy "default"
   uid { |attrs| GeneratesUid.call(strategy: attrs[:strategy]) }
-  acl "private"
   status_id 1
 end
