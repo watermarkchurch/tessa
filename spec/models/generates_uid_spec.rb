@@ -4,22 +4,22 @@ RSpec.describe GeneratesUid do
   subject(:generator) { described_class.new(args) }
   let(:args) {
     {
-      strategy: "default",
+      strategy_name: "default",
       name: "name",
     }
   }
 
   describe "#initialize" do
-    it "sets :strategy attribute" do
-      expect(generator.strategy).to eq("default")
+    it "sets :strategy_name attribute" do
+      expect(generator.strategy_name).to eq("default")
     end
 
     it "sets :name attribtue" do
       expect(generator.name).to eq("name")
     end
 
-    it "errors with no strategy" do
-      new_args = args.reject { |k,_| k == :strategy }
+    it "errors with no strategy_name" do
+      new_args = args.reject { |k,_| k == :strategy_name }
       expect { described_class.new(new_args) }.to raise_error
     end
 

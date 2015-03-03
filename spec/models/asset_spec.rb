@@ -5,7 +5,7 @@ RSpec.describe Asset do
   let(:args) {
     {
       id: 123,
-      strategy: "mystrat",
+      strategy_name: "mystrat",
       uid: "some/path/123",
       status_id: 1,
       meta: { "foo" => "bar" }
@@ -18,8 +18,8 @@ RSpec.describe Asset do
         expect(asset.id).to eq(123)
       end
 
-      it "sets :strategy to attribute" do
-        expect(asset.strategy).to eq("mystrat")
+      it "sets :strategy_name to attribute" do
+        expect(asset.strategy_name).to eq("mystrat")
       end
 
       it "sets :uid to attribute" do
@@ -94,14 +94,43 @@ RSpec.describe Asset do
       it { is_expected.to be_truthy }
     end
 
-    context "without :strategy" do
-      before { args.delete(:strategy) }
+    context "without :strategy_name" do
+      before { args.delete(:strategy_name) }
       it { is_expected.to be_falsey }
     end
 
     context "without :uid" do
       before { args.delete(:uid) }
       it { is_expected.to be_falsey }
+    end
+  end
+
+  describe "#strategy" do
+    let(:strategy_class) { Class.new(Strategy) }
+    before do
+      strategy_class.add :default, {}
+    end
+
+    context "with a configured strategy name" do
+      subject(:strategy) { asset.strategy(strategy_class) }
+      before { args[:strategy_name] = "default" }
+      it { is_expected.to be_a(Strategy) }
+    end
+
+    context "with an unknown strategy name" do
+      subject(:strategy) { asset.strategy(strategy_class) }
+      before { args[:strategy_name] = "unknown" }
+      it { is_expected.to be_nil }
+    end
+
+    context "with default strategy db" do
+      subject(:strategy) { asset.strategy }
+      before do
+        args[:strategy_name] = "test_#{rand(10000)}"
+        STRATEGIES.add asset.strategy_name, {}
+      end
+
+      it { is_expected.to be_a(Strategy) }
     end
   end
 

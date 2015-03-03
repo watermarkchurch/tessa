@@ -52,7 +52,7 @@ RSpec.describe Upload do
   describe "#save" do
     let(:asset_attrs) {
       {
-        strategy: "temp",
+        strategy_name: "temp",
         meta: {
           name: "foo.txt",
           size: 3,

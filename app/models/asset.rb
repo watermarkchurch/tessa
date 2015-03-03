@@ -10,17 +10,21 @@ class Asset
   ID_TO_STATUSES = STATUSES.invert
 
   attribute :id, Integer
-  attribute :strategy, String
+  attribute :strategy_name, String
   attribute :uid, String
   attribute :status_id, Integer, default: STATUSES[:pending]
   attribute :meta, Object, default: {}
 
   def valid?
-    strategy && uid
+    strategy_name && uid
   end
 
   def status
     ID_TO_STATUSES[status_id]
+  end
+
+  def strategy(db=STRATEGIES)
+    db.strategies[strategy_name.to_sym]
   end
 
   def self.find(id)

@@ -1,14 +1,14 @@
 require 'securerandom'
 
 class GeneratesUid
-  attr_reader :strategy, :name
+  attr_reader :strategy_name, :name
 
   DELIMITER = "/"
   DEFAULT_NAME = "file"
   MAX_NAME_LENGTH = 512
 
-  def initialize(strategy:, name: nil)
-    @strategy = strategy
+  def initialize(strategy_name:, name: nil)
+    @strategy_name = strategy_name
     @name = handle_name(name)
   end
 

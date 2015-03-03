@@ -24,7 +24,7 @@ RSpec.describe AssetsController, type: :controller do
     end
 
     it "returns strategy" do
-      expect(json['strategy']).to eq(asset.strategy)
+      expect(json['strategy']).to eq(asset.strategy_name)
     end
 
     it "returns meta" do

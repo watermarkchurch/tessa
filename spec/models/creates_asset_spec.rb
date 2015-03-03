@@ -12,15 +12,15 @@ RSpec.describe CreatesAsset do
     context "with all args passed" do
       let(:args) {
         {
-          strategy: "mystrat",
+          strategy_name: "mystrat",
           uid: "uid/123",
           meta: { "foo" => "bar" },
           persistence: :persistence
         }
       }
 
-      it "sets :strategy attribute" do
-        expect(creates_asset.strategy).to eq("mystrat")
+      it "sets :strategy_name attribute" do
+        expect(creates_asset.strategy_name).to eq("mystrat")
       end
 
       it "sets :meta attribute" do
@@ -39,8 +39,8 @@ RSpec.describe CreatesAsset do
     context "with no args passed" do
       let(:args) { {} }
 
-      it "sets :strategy to 'default'" do
-        expect(creates_asset.strategy).to eq("default")
+      it "sets :strategy_name to :default" do
+        expect(creates_asset.strategy_name).to eq("default")
       end
 
       it "sets :persistence to Asset.persistence" do
@@ -53,7 +53,7 @@ RSpec.describe CreatesAsset do
 
       it "sets :uid to GeneratesUid.(strategy)" do
         uid_generator_args = {
-          strategy: "default",
+          strategy_name: "default",
           name: "filename.txt",
         }
         args[:meta] = { "name" => "filename.txt" }
@@ -70,7 +70,7 @@ RSpec.describe CreatesAsset do
     let(:uid) { 'my_uid' }
     let(:record) {
       {
-        strategy: 'default',
+        strategy_name: "default",
         uid: uid,
         meta: {},
         status_id: 1,
@@ -94,7 +94,7 @@ RSpec.describe CreatesAsset do
 
       it "has values set" do
         expect(call_return.id).to eq(12345)
-        expect(call_return.strategy).to eq(record[:strategy])
+        expect(call_return.strategy_name).to eq(record[:strategy_name])
         expect(call_return.uid).to eq(record[:uid])
         expect(call_return.meta).to eq(record[:meta])
       end

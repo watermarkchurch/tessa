@@ -2,7 +2,7 @@ class CreatesAsset
   include Virtus.model
 
   attribute :persistence, Object, default: -> (*_) { Asset.persistence }
-  attribute :strategy, String, default: "default"
+  attribute :strategy_name, String, default: "default"
   attribute :meta, Hash, default: {}
   attribute :uid, String, default: :generate_uid
 
@@ -15,7 +15,7 @@ class CreatesAsset
 
   def asset_args
     {
-      strategy: strategy,
+      strategy_name: strategy_name,
       uid: uid,
       meta: meta,
       status_id: 1,
@@ -29,7 +29,7 @@ class CreatesAsset
   private
 
   def generate_uid
-    GeneratesUid.call(name: meta["name"], strategy: strategy)
+    GeneratesUid.call(name: meta["name"], strategy_name: strategy_name)
   end
 
 end
