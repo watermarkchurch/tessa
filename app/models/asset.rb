@@ -27,6 +27,10 @@ class Asset
     db.strategies[strategy_name.to_sym]
   end
 
+  def url(strategy: self.strategy)
+    @url ||= StrategyURL.new(strategy: strategy, uid: uid)
+  end
+
   def self.find(id)
     persistence.find(id)
   end

@@ -134,6 +134,51 @@ RSpec.describe Asset do
     end
   end
 
+  describe "#url" do
+    before { args[:uid] = "test/uid/1" }
+    let(:strategy) { instance_spy(Strategy) }
+
+    shared_examples_for "returning a StrategyURL" do
+      it "is of type StrategyURL" do
+        expect(call_url).to be_a(StrategyURL)
+      end
+
+      it "sets strategy on URL" do
+        expect(call_url.strategy).to eq(strategy)
+      end
+
+      it "sets asset's uid on URL" do
+        expect(call_url.uid).to eq("test/uid/1")
+      end
+
+      it "caches the result" do
+        expect(call_url.object_id).to eq(call_url.object_id)
+      end
+    end
+
+    context "with spy passed" do
+      it_behaves_like "returning a StrategyURL"
+
+      def call_url
+        asset.url(strategy: strategy)
+      end
+    end
+
+    context "with no args" do
+      subject(:url) { asset.url }
+
+      before do
+        expect(asset).to receive(:strategy).and_return(strategy).at_least(1)
+      end
+
+      it_behaves_like "returning a StrategyURL"
+
+      def call_url
+        asset.url
+      end
+    end
+  end
+
   describe "::find" do
     it "raises error if asset doesn't exist by this id in DB" do
       expect { described_class.find(0) }.to raise_error(Persistence::RecordNotFound)
