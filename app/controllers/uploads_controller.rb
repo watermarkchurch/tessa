@@ -12,8 +12,14 @@ class UploadsController < Sinatra::Base
 
   post "/" do
     upload = Upload.new(upload_params)
-    upload.save
-    upload.to_json
+    if upload.save
+      upload.to_json
+    else
+      status 422
+      {
+        error: "Invalid options for new upload!",
+      }.to_json
+    end
   end
 
   def upload_params

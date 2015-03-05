@@ -53,7 +53,7 @@ RSpec.describe UploadsController, type: :controller do
     context "with all params" do
       let(:params) {
         {
-          "strategy" => "foo",
+          "strategy" => "default",
           "name" => "filename",
           "size" => "123",
           "mime_type" => "text/plain",
@@ -70,6 +70,24 @@ RSpec.describe UploadsController, type: :controller do
         upload = double(Upload, save: true)
         expect(Upload).to receive(:new).with(params).and_return(upload)
         run_request
+      end
+    end
+
+    context "with an invalid strategy" do
+      let(:params) {
+        {
+          "strategy" => "not a strategy",
+        }
+      }
+
+      it "does not create an asset" do
+        run_request
+        expect(DB[:assets].count).to eq(0)
+      end
+
+      it "returns a 422 error" do
+        run_request
+        expect(response.status).to eq(422)
       end
     end
 

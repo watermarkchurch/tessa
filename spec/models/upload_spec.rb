@@ -93,7 +93,7 @@ RSpec.describe Upload do
       end
 
       context "returned asset does not have an id" do
-        let(:factory) { -> (args) { double(:asset, id: nil) } }
+        let(:factory) { -> (args) { nil } }
         it "returns falsey" do
           expect(save_return).to be_falsey
         end
@@ -105,14 +105,21 @@ RSpec.describe Upload do
     subject(:parsed) { JSON.parse(upload.to_json) }
 
     context "after #save called" do
-      before { upload.save }
+      let(:asset) { spy(:asset) }
+      let(:asset_url) { spy(:asset_url) }
+
+      before do
+        upload.save(asset_factory: -> (args) { asset })
+        allow(asset).to receive(:url).and_return(asset_url)
+      end
 
       it "returns an upload_url" do
-        expect(parsed['upload_url']).to be_truthy
+        expect(asset_url).to receive(:put).and_return("the put URL")
+        expect(parsed['upload_url']).to eq("the put URL")
       end
 
       it "returns an upload_method" do
-        expect(parsed['upload_method']).to be_truthy
+        expect(parsed['upload_method']).to eq("put")
       end
 
       it "returns a success_url" do
