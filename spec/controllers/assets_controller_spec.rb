@@ -31,12 +31,12 @@ RSpec.describe AssetsController, type: :controller do
       expect(json['meta']).to eq(asset.meta)
     end
 
-    it "returns signed private_url" do
-      expect(json['private_url']).to be_a(String)
+    it "returns private_url" do
+      expect(json['private_url']).to eq(asset.url.get)
     end
 
     it "returns public_url" do
-      expect(json['public_url']).to be_a(String)
+      expect(json['public_url']).to eq(asset.url.public)
     end
   end
 

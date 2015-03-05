@@ -38,8 +38,8 @@ class AssetsController < Sinatra::Base
       status: asset.status,
       strategy: asset.strategy_name,
       meta: asset.meta,
-      public_url: "URL",
-      private_url: "URL",
+      public_url: asset.url.public,
+      private_url: asset.url.get,
     }.to_json
   end
 end
