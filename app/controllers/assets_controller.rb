@@ -11,16 +11,23 @@ class AssetsController < Sinatra::Base
 
   patch "/:id/completed" do
     set_asset_status(:completed)
-    asset_json
+    serialized.to_json
   end
 
   patch "/:id/cancelled" do
     set_asset_status(:cancelled)
-    asset_json
+    serialized.to_json
   end
 
   get "/:id" do
-    asset_json
+    serialized.to_json
+  end
+
+  delete "/:id" do
+    set_asset_status(:deleted)
+    serialized.merge(
+      delete_url: asset.url.delete,
+    ).to_json
   end
 
   def asset
@@ -32,7 +39,7 @@ class AssetsController < Sinatra::Base
       .update(asset, status_id: Asset::STATUSES[status])
   end
 
-  def asset_json
+  def serialized
     {
       id: asset.id,
       status: asset.status,
@@ -40,6 +47,6 @@ class AssetsController < Sinatra::Base
       meta: asset.meta,
       public_url: asset.url.public,
       private_url: asset.url.get,
-    }.to_json
+    }
   end
 end

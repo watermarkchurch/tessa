@@ -134,8 +134,46 @@ RSpec.describe AssetsController, type: :controller do
       end
     end
 
+    context "with a non-existant asset" do
+      before { run_request(0) }
+      it_behaves_like "asset not found"
+    end
+
     def run_request(id=asset.id)
       get "/#{id}"
+    end
+  end
+
+  describe "DELETE /:id" do
+    context "with an existing asset" do
+      let!(:asset) { create(:asset) }
+
+      it_behaves_like "successful asset response" do
+        before {
+          run_request
+          asset.status_id = Asset::STATUSES[:deleted]
+        }
+      end
+
+      it "also includes :delete_url in response" do
+        run_request
+        expect(json['delete_url']).to eq(asset.url.delete)
+      end
+
+      it "sets the status to :deleted" do
+        run_request
+        new_asset = Asset.find(asset.id)
+        expect(new_asset.status).to eq(:deleted)
+      end
+    end
+
+    context "with a non-existant asset" do
+      before { run_request(0) }
+      it_behaves_like "asset not found"
+    end
+
+    def run_request(id=asset.id)
+      delete "/#{id}"
     end
   end
 end
