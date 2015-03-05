@@ -26,5 +26,9 @@ PRELOAD_PATHS.each do |path|
   end
 end
 
+Dir[File.join(APP_ROOT, "config", "initializers", "*.rb")].each do |init|
+  require init
+end
+
 require "#{APP_ROOT}/config/application"
 
