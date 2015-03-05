@@ -9,7 +9,7 @@ RSpec.describe Strategy do
       acl: "public",
       prefix: "prefix/",
       region: "us-east-2",
-      credentials: { "access_key_id" => "abc", :secret_access_key => "123" },
+      credentials: { access_key_id: "abc", secret_access_key: "123" },
       ttl: 1,
     }
   }
@@ -37,12 +37,21 @@ RSpec.describe Strategy do
       end
 
       it "sets :credentials to attribute" do
-        expect(strategy.credentials)
-          .to eq(access_key_id: "abc", secret_access_key: "123")
+        expect(strategy.credentials).to be_a(Aws::Credentials)
+        expect(strategy.credentials.access_key_id).to eq("abc")
+        expect(strategy.credentials.secret_access_key).to eq("123")
       end
 
       it "sets :ttl to attribute" do
         expect(strategy.ttl).to eq(1)
+      end
+    end
+
+    context "with Aws::Credentials object for creds" do
+      let(:aws_creds) { Aws::Credentials.new("key", "secret") }
+      before { args[:credentials] = aws_creds }
+      it "uses that cred object" do
+        expect(strategy.credentials).to eq(aws_creds)
       end
     end
 
@@ -71,13 +80,6 @@ RSpec.describe Strategy do
       before { args.delete(:ttl) }
       it "sets to 900" do
         expect(strategy.ttl).to eq(900)
-      end
-    end
-
-    context "without :credentials attr" do
-      before { args.delete(:credentials) }
-      it "sets to empty Hash" do
-        expect(strategy.credentials).to eq({})
       end
     end
   end

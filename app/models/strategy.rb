@@ -9,7 +9,7 @@ class Strategy
   attribute :prefix, String, default: ""
   attribute :acl, Symbol, default: :private
   attribute :region, String, default: DEFAULT_REGION
-  attribute :credentials, Hash[Symbol => String], default: {}
+  attribute :credentials, Aws::Credentials
   attribute :ttl, Integer, default: DEFAULT_TTL
 
   def client
@@ -31,6 +31,10 @@ class Strategy
       .object(prefix + uid)
   end
 
+  def credentials=(creds)
+    @credentials = initialize_credentials(creds)
+  end
+
   def self.strategies
     @strategies ||= {}
   end
@@ -38,5 +42,16 @@ class Strategy
   def self.add(name, options)
     strategy = new(options.merge(name: name))
     strategies[strategy.name] = strategy
+  end
+
+  private
+
+  def initialize_credentials(creds)
+    case creds
+    when Aws::Credentials
+      creds
+    when Hash
+      Aws::Credentials.new(creds[:access_key_id], creds[:secret_access_key])
+    end
   end
 end
