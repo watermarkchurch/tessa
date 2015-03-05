@@ -3,11 +3,7 @@ ENV['RACK_ENV'] ||= "development"
 require 'bundler/setup'
 Bundler.require(:default)
 
-if ENV['RACK_ENV'] == "test"
-  Dotenv.load(".env.test")
-else
-  Dotenv.load
-end
+Dotenv.load(".env", ".env.#{ENV['RACK_ENV']}")
 
 DATABASE_URL ||= ENV['DATABASE_URL'] || fail("You must configure DATABASE_URL envvar")
 DB = Sequel.connect(DATABASE_URL)

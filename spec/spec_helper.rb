@@ -1,4 +1,5 @@
 ENV['RACK_ENV'] = "test"
+DIGEST_CREDENTIALS = { "test_user" => "test_password" }
 require File.expand_path("../../config/environment", __FILE__)
 
 require 'rack/test'
