@@ -88,6 +88,7 @@ RSpec.describe Asset do
   end
 
   describe "#valid?" do
+    before { args[:strategy_name] = "default" }
     subject(:valid?) { asset.valid? }
 
     context "with all args" do
@@ -96,6 +97,11 @@ RSpec.describe Asset do
 
     context "without :strategy_name" do
       before { args.delete(:strategy_name) }
+      it { is_expected.to be_falsey }
+    end
+
+    context "with :strategy_name of non-existant strategy" do
+      before { args[:strategy_name] = "not-a-strategy" }
       it { is_expected.to be_falsey }
     end
 

@@ -10,13 +10,13 @@ class Asset
   ID_TO_STATUSES = STATUSES.invert
 
   attribute :id, Integer
-  attribute :strategy_name, String
+  attribute :strategy_name, String, default: ""
   attribute :uid, String
   attribute :status_id, Integer, default: STATUSES[:pending]
   attribute :meta, Object, default: {}
 
   def valid?
-    strategy_name && uid
+    strategy && uid
   end
 
   def status
