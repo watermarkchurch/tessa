@@ -8,7 +8,7 @@ With this version Tessa only provides links for Amazon S3, but it could
 theoretically support any system that allows for signed links to manage
 files.
 
-See the (tessa-client)[tessa-client] project for a client implementation
+See the [tessa-client][tessa-client] project for a client implementation
 for this service.
 
 [tessa-client]: https://github.com/watermarkchurch/tessa-client
@@ -62,6 +62,6 @@ authentication to function securely.
 
 ## Contributing
 
-See (CONTRIBUTING.md)[contributing]
+See [CONTRIBUTING.md][contributing]
 
 [contributing]: https://github.com/watermarkchurch/tessa/blob/master/CONTRIBUTING.md
