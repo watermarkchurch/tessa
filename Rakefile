@@ -16,6 +16,19 @@ task :pry => :environment do
   Pry.start
 end
 
+desc 'Copy the example files into place'
+task :setup => :environment do
+  require 'fileutils'
+  {
+    File.join(APP_ROOT, "config", "creds.yml.example") =>
+      File.join(APP_ROOT, "config", "creds.yml"),
+    File.join(APP_ROOT, "config", "strategies.yml.example") =>
+      File.join(APP_ROOT, "config", "strategies.yml"),
+  }.each do |source, dest|
+    FileUtils.cp(source, dest) unless File.exists?(dest)
+  end
+end
+
 namespace :db do
 
   task :create => :environment do |t, args|
