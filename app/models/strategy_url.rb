@@ -11,23 +11,38 @@ class StrategyURL
   end
 
   def get(args={})
-    object.presigned_url(:get, args)
+    presigned_url(:get, args)
   end
 
   def put(args={})
-    object.presigned_url(:put, args)
+    presigned_url(:put, args)
   end
 
   def head(args={})
-    object.presigned_url(:head, args)
+    presigned_url(:head, args)
   end
 
   def delete(args={})
-    object.presigned_url(:delete, args)
+    presigned_url(:delete, args)
   end
 
   def public
     object.public_url
+  end
+
+  private
+
+  def presigned_url(method, args)
+    object.presigned_url(method, default_args(method).merge(args))
+  end
+
+  def default_args(method)
+    case method
+    when :put
+      { acl: strategy.acl }
+    else
+      {}
+    end
   end
 
 end

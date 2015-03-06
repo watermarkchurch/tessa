@@ -6,7 +6,7 @@ RSpec.describe Strategy do
     {
       name: "default",
       bucket: "my-bucket",
-      acl: "public",
+      acl: 'public-read',
       prefix: "prefix/",
       region: "us-east-2",
       credentials: { access_key_id: "abc", secret_access_key: "123" },
@@ -25,7 +25,7 @@ RSpec.describe Strategy do
       end
 
       it "sets :acl to attribute" do
-        expect(strategy.acl).to eq(:public)
+        expect(strategy.acl).to eq('public-read')
       end
 
       it "sets :prefix to attribute" do
@@ -65,7 +65,7 @@ RSpec.describe Strategy do
     context "without :acl attr" do
       before { args.delete(:acl) }
       it "sets to 'private'" do
-        expect(strategy.acl).to eq(:private)
+        expect(strategy.acl).to eq('private')
       end
     end
 

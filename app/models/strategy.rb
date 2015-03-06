@@ -7,7 +7,7 @@ class Strategy
   attribute :name, Symbol
   attribute :bucket, String
   attribute :prefix, String, default: ""
-  attribute :acl, Symbol, default: :private
+  attribute :acl, String, default: 'private'
   attribute :region, String, default: DEFAULT_REGION
   attribute :credentials, Aws::Credentials
   attribute :ttl, Integer, default: DEFAULT_TTL

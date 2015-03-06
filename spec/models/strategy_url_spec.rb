@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe StrategyURL do
   subject(:url) { described_class.new(args) }
-  let(:strategy) { spy(:strategy) }
+  let(:strategy) { spy(:strategy, acl: 'private') }
   let(:uid) { "uid/1" }
   let(:args) {
     {
@@ -56,14 +56,14 @@ RSpec.describe StrategyURL do
     context "with no args" do
       it "calls #presigned_url with method_name and default hash" do
         url.public_send(method)
-        expect(object).to have_received(:presigned_url).with(method, {})
+        expect(object).to have_received(:presigned_url).with(method, an_instance_of(Hash))
       end
     end
 
     context "with args hash" do
       it "calls #presigned_url with method_name and passed argument" do
         url.public_send(method, foo: 1)
-        expect(object).to have_received(:presigned_url).with(method, foo: 1)
+        expect(object).to have_received(:presigned_url).with(method, hash_including(foo: 1))
       end
     end
   end
@@ -76,6 +76,11 @@ RSpec.describe StrategyURL do
   describe "#put" do
     let(:method) { :put }
     include_examples "signed url"
+
+    it "adds strategy's acl to params" do
+      url.put
+      expect(object).to have_received(:presigned_url).with(method, hash_including(acl: strategy.acl))
+    end
   end
 
   describe "#head" do
