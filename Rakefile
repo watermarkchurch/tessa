@@ -17,13 +17,14 @@ task :pry => :environment do
 end
 
 desc 'Copy the example files into place'
-task :setup => :environment do
+task :setup do
   require 'fileutils'
+  root = File.expand_path("..", __FILE__)
   {
-    File.join(APP_ROOT, "config", "creds.yml.example") =>
-      File.join(APP_ROOT, "config", "creds.yml"),
-    File.join(APP_ROOT, "config", "strategies.yml.example") =>
-      File.join(APP_ROOT, "config", "strategies.yml"),
+    File.join(root, "config", "creds.yml.example") =>
+      File.join(root, "config", "creds.yml"),
+    File.join(root, "config", "strategies.yml.example") =>
+      File.join(root, "config", "strategies.yml"),
   }.each do |source, dest|
     FileUtils.cp(source, dest) unless File.exists?(dest)
   end
