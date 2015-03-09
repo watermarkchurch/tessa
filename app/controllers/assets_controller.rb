@@ -1,5 +1,15 @@
 class AssetsController < Sinatra::Base
 
+  set(:multiple_ids) do |only_multiple|
+    condition do
+      if only_multiple
+        params['id'].include?(",")
+      else
+        !params['id'].include?(",")
+      end
+    end
+  end
+
   before do
     content_type "application/json"
   end
@@ -11,21 +21,27 @@ class AssetsController < Sinatra::Base
 
   patch "/:id/completed" do
     set_asset_status(:completed)
-    serialized.to_json
+    serialized(asset).to_json
   end
 
   patch "/:id/cancelled" do
     set_asset_status(:cancelled)
-    serialized.to_json
+    serialized(asset).to_json
   end
 
-  get "/:id" do
-    serialized.to_json
+  get "/:id", multiple_ids: false do
+    serialized(asset).to_json
+  end
+
+  get "/:id", multiple_ids: true do
+    assets(params['id'].split(",")).map do |asset|
+      serialized(asset)
+    end.to_json
   end
 
   delete "/:id" do
     set_asset_status(:deleted)
-    serialized.merge(
+    serialized(asset).merge(
       delete_url: asset.url.delete,
     ).to_json
   end
@@ -34,12 +50,16 @@ class AssetsController < Sinatra::Base
     @asset ||= Asset.find(params['id'])
   end
 
+  def assets(ids)
+    Asset.persistence.query(id: ids.collect(&:to_i))
+  end
+
   def set_asset_status(status)
     Asset.persistence
       .update(asset, status_id: Asset::STATUSES[status])
   end
 
-  def serialized
+  def serialized(asset)
     {
       id: asset.id,
       status: asset.status,

@@ -44,6 +44,22 @@ RSpec.describe Persistence do
     end
   end
 
+  describe "#query" do
+    subject(:result) { persistence.query(query_args) }
+    let(:query_args) { { id: [1, 2, 3] } }
+    let(:data) { [{}, {}, {}] }
+    before do
+      expect(dataset).to receive(:where).with(query_args).and_return(data)
+    end
+
+    it "returns an array of instances of model" do
+      expect(result.size).to eq(3)
+      expect(result[0]).to be_a(model)
+      expect(result[1]).to be_a(model)
+      expect(result[2]).to be_a(model)
+    end
+  end
+
   describe "#find" do
     before do
       expect(dataset).to receive(:where).with(id: :find_arg).and_return(dataset)

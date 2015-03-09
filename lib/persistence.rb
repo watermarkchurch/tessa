@@ -8,6 +8,10 @@ class Persistence
     @dataset = dataset
   end
 
+  def query(args)
+    dataset.where(args).map { |record| model.new record }
+  end
+
   def find(id)
     model.new dataset.where(id: id).first!
   rescue Sequel::NoMatchingRow

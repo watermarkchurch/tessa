@@ -144,6 +144,29 @@ RSpec.describe AssetsController, type: :controller do
     end
   end
 
+  describe "GET /:id,:id..." do
+    context "with two existing assets" do
+      let!(:assets) { [create(:asset), create(:asset)] }
+
+      it "returns both assets" do
+        run_request
+        expect(json.size).to eq(2)
+        expect(json[0]['id']).to eq(assets[0].id)
+        expect(json[1]['id']).to eq(assets[1].id)
+      end
+
+      it "ignores non-existant asset ids" do
+        run_request([assets[0].id, "-1", "abc"])
+        expect(json.size).to eq(1)
+        expect(json[0]['id']).to eq(assets[0].id)
+      end
+    end
+
+    def run_request(ids=assets.collect(&:id))
+      get "/#{ids.join(",")}"
+    end
+  end
+
   describe "DELETE /:id" do
     context "with an existing asset" do
       let!(:asset) { create(:asset) }
