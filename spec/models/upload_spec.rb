@@ -54,9 +54,9 @@ RSpec.describe Upload do
       {
         strategy_name: "temp",
         meta: {
-          name: "foo.txt",
-          size: 3,
-          mime_type: "text/plain",
+          "name" => "foo.txt",
+          "size" => 3,
+          "mime_type" => "text/plain",
         }
       }
     }

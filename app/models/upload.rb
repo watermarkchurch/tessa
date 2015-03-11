@@ -29,9 +29,9 @@ class Upload
     {
       strategy_name: strategy,
       meta: {
-        name: name,
-        size: size,
-        mime_type: mime_type,
+        "name" => name,
+        "size" => size,
+        "mime_type" => mime_type,
       }
     }
   end
