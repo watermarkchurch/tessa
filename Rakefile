@@ -33,11 +33,11 @@ end
 namespace :db do
 
   task :create => :environment do |t, args|
-    exec "createdb #{db_name}"
+    system "createdb #{db_name}"
   end
 
   task :drop => :environment do |t, args|
-    exec "dropdb #{db_name}"
+    system "dropdb #{db_name}"
   end
 
   desc "migrate the database"
