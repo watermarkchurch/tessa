@@ -31,6 +31,10 @@ RSpec.configure do |config|
     config.default_formatter = 'doc'
   end
 
+  config.before(:suite) do
+    DB[:assets].delete
+  end
+
   config.around(:each) do |example|
     DB.transaction(rollback: :always, auto_savepoint: true) { example.run }
   end
