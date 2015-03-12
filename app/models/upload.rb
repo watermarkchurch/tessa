@@ -18,8 +18,7 @@ class Upload
     {
       upload_url: @asset.url.put,
       upload_method: "put",
-      success_url: "/assets/#{@asset.id}/completed",
-      cancel_url: "/assets/#{@asset.id}/cancelled",
+      asset_id: @asset.id,
     }.to_json
   end
 

@@ -122,12 +122,8 @@ RSpec.describe Upload do
         expect(parsed['upload_method']).to eq("put")
       end
 
-      it "returns a success_url" do
-        expect(parsed['success_url']).to be_truthy
-      end
-
-      it "returns a cancel_url" do
-        expect(parsed['cancel_url']).to be_truthy
+      it "returns an asset_id" do
+        expect(parsed['asset_id']).to be_truthy
       end
     end
 

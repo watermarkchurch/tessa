@@ -24,12 +24,8 @@ RSpec.describe UploadsController, type: :controller do
         expect(json['upload_method']).to_not be_nil
       end
 
-      it "returns a success_url" do
-        expect(json['success_url']).to_not be_nil
-      end
-
-      it "returns a cancel_url" do
-        expect(json['cancel_url']).to_not be_nil
+      it "returns an asset_id" do
+        expect(json['asset_id']).to_not be_nil
       end
     end
 
