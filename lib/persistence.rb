@@ -21,7 +21,9 @@ class Persistence
   def create(attrs)
     instance = model.new attrs
     if instance_valid?(instance)
-      instance.id = dataset.insert(instance_attributes(instance))
+      instance.id = dataset.insert(
+        filter_nil_values(instance_attributes(instance))
+      )
       instance
     else
       false
@@ -51,8 +53,12 @@ class Persistence
     !instance.respond_to?(:valid?) || instance.valid?
   end
 
+  def filter_nil_values(hash)
+    hash.reject { |_, v| v.nil? }
+  end
+
   def instance_attributes(instance, subset=instance.attributes.keys)
-    instance.attributes.select { |key, _|
+    instance.attributes.select { |key, val|
       !FILTERED_ATTRIBUTES.include?(key) &&
         subset.include?(key)
     }

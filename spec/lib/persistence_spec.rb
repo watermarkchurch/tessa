@@ -116,6 +116,15 @@ RSpec.describe Persistence do
         end
       end
 
+      context "nil value keys present in instance attributes" do
+        let(:instance_attributes) { { a: nil, b: "val" } }
+
+        it "removes nil values" do
+          expect(dataset).to receive(:insert).with(b: "val").and_return(:id)
+          create_call
+        end
+      end
+
       it "returns the instance" do
         expect(create_call).to eq(instance)
       end
@@ -178,6 +187,15 @@ RSpec.describe Persistence do
         it "removes the :id" do
           expect(instance).to receive(:attributes).and_return(id: 1, a: 2)
           expect(dataset).to receive(:update).with(a: 2).and_return(1)
+          update_call
+        end
+      end
+
+      context "nil value keys present in instance attributes" do
+        let(:attrs) { { a: nil, b: "val" } }
+        it "does not remove nil values" do
+          expect(instance).to receive(:attributes).and_return(a: nil, b: "val")
+          expect(dataset).to receive(:update).with(a: nil, b: "val").and_return(:id)
           update_call
         end
       end

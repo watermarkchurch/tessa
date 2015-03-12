@@ -2,13 +2,16 @@ require 'spec_helper'
 
 RSpec.describe Asset do
   subject(:asset) { described_class.new(args) }
+  let(:now) { Time.now }
   let(:args) {
     {
       id: 123,
       strategy_name: "mystrat",
       uid: "some/path/123",
       status_id: 1,
-      meta: { "foo" => "bar" }
+      meta: { "foo" => "bar" },
+      created_at: now,
+      updated_at: now,
     }
   }
 
@@ -32,6 +35,14 @@ RSpec.describe Asset do
 
       it "sets :meta to attribute" do
         expect(asset.meta).to eq({ "foo" => "bar" })
+      end
+
+      it "sets :created_at to attribute" do
+        expect(asset.created_at).to eq(now)
+      end
+
+      it "sets :updated_at to attribute" do
+        expect(asset.updated_at).to eq(now)
       end
     end
 

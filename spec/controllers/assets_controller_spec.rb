@@ -31,6 +31,14 @@ RSpec.describe AssetsController, type: :controller do
       expect(json['meta']).to eq(asset.meta)
     end
 
+    it "returns created_at" do
+      expect(json['created_at']).to eq(asset.created_at)
+    end
+
+    it "returns updated_at" do
+      expect(json['updated_at']).to eq(asset.updated_at)
+    end
+
     it "returns private_url" do
       expect(json['private_url']).to eq(asset.url.get)
     end

@@ -8,6 +8,7 @@ Dotenv.load(".env", ".env.#{ENV['RACK_ENV']}")
 DATABASE_URL ||= ENV['DATABASE_URL'] || fail("You must configure DATABASE_URL envvar")
 DB = Sequel.connect(DATABASE_URL)
 DB.extension :pg_json
+Sequel.default_timezone = :utc
 
 APP_ROOT = File.expand_path("../..", __FILE__)
 PRELOAD_PATHS = %w[

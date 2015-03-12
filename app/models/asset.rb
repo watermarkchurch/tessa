@@ -14,6 +14,8 @@ class Asset
   attribute :uid, String
   attribute :status_id, Integer, default: STATUSES[:pending]
   attribute :meta, Object, default: {}
+  attribute :created_at, Time
+  attribute :updated_at, Time
 
   def valid?
     strategy && uid
