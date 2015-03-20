@@ -4,9 +4,8 @@ TessaApp = Rack::URLMap.new(
   "/" => RootController,
 )
 
-ProtectedTessaApp = Rack::Auth::Digest::MD5.new(TessaApp) do |username|
-  DIGEST_CREDENTIALS[username]
+ProtectedTessaApp = Rack::Auth::Basic.new(TessaApp) do |username, password|
+  CREDENTIALS[username] == password
 end
 ProtectedTessaApp.realm = 'Tessa Asset Manager'
-ProtectedTessaApp.opaque = ENV['DIGEST_AUTH_OPAQUE']
 

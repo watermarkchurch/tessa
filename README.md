@@ -21,7 +21,7 @@ for this service.
 
 ### `config/creds.yml`
 
-This YAML file provides username and passwords for digest authentication
+This YAML file provides username and passwords for basic authentication
 for clients of the API. You can provide as many credentials as is
 necessary for your deployment.
 
@@ -60,9 +60,6 @@ configured with the environment variables `AWS_REGION`,
 Tessa uses a PostreSQL database for persisting data on the assets in the
 system. You will need to configure a `DATABASE_URL` environment
 variables to a PostgreSQL database.
-
-You will also need to configure `DIGEST_AUTH_OPAQUE` for the digest
-authentication to function securely.
 
 ## Contributing
 
