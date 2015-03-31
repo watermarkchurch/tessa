@@ -16,3 +16,8 @@ group :development do
   gem 'rack-test', '~>0.6.3'
   gem 'timecop', '~>0.7.1'
 end
+
+group :production do
+  gem 'airbrake'
+  gem 'newrelic_rpm'
+end
