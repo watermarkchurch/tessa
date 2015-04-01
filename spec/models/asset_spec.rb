@@ -10,6 +10,7 @@ RSpec.describe Asset do
       uid: "some/path/123",
       status_id: 1,
       meta: { "foo" => "bar" },
+      username: "bob",
       created_at: now,
       updated_at: now,
     }
@@ -35,6 +36,10 @@ RSpec.describe Asset do
 
       it "sets :meta to attribute" do
         expect(asset.meta).to eq({ "foo" => "bar" })
+      end
+
+      it "sets :username attribute" do
+        expect(asset.username).to eq("bob")
       end
 
       it "sets :created_at to attribute" do

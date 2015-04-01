@@ -9,6 +9,7 @@ RSpec.describe Upload do
       "name" => "foo.txt",
       "size" => "3",
       "mime_type" => "text/plain",
+      "username" => "bob",
     }
   }
 
@@ -28,6 +29,10 @@ RSpec.describe Upload do
 
       it "sets mime_type to attribute" do
         expect(upload.mime_type).to eq("text/plain")
+      end
+
+      it "sets username to attribute" do
+        expect(upload.username).to eq("bob")
       end
     end
 
@@ -53,6 +58,7 @@ RSpec.describe Upload do
     let(:asset_attrs) {
       {
         strategy_name: "temp",
+        username: "bob",
         meta: {
           "name" => "foo.txt",
           "size" => 3,

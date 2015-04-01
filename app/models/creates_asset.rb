@@ -5,6 +5,7 @@ class CreatesAsset
   attribute :strategy_name, String, default: "default"
   attribute :meta, Hash, default: {}
   attribute :uid, String, default: :generate_uid
+  attribute :username, String
 
   def call
     return @asset if @asset
@@ -19,6 +20,7 @@ class CreatesAsset
       uid: uid,
       meta: meta,
       status_id: 1,
+      username: username,
     }
   end
 

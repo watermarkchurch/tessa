@@ -15,6 +15,7 @@ RSpec.describe CreatesAsset do
           strategy_name: "mystrat",
           uid: "uid/123",
           meta: { "foo" => "bar" },
+          username: "bob",
           persistence: :persistence
         }
       }
@@ -33,6 +34,10 @@ RSpec.describe CreatesAsset do
 
       it "sets :uid attribute" do
         expect(creates_asset.uid).to eq("uid/123")
+      end
+
+      it "sets :username attribute" do
+        expect(creates_asset.username).to eq("bob")
       end
     end
 
@@ -64,7 +69,7 @@ RSpec.describe CreatesAsset do
   end
 
   describe "#call" do
-    subject(:creates_asset) { described_class.new(persistence: persistence, uid: uid) }
+    subject(:creates_asset) { described_class.new(persistence: persistence, uid: uid, username: "bob") }
     let(:persistence) { instance_double(Persistence, create: asset) }
     let(:asset) { instance_double(Asset, record.merge(id: 12345)) }
     let(:uid) { 'my_uid' }
@@ -74,6 +79,7 @@ RSpec.describe CreatesAsset do
         uid: uid,
         meta: {},
         status_id: 1,
+        username: "bob",
       }
     }
 
