@@ -1,15 +1,17 @@
 require 'securerandom'
 
 class GeneratesUid
-  attr_reader :strategy_name, :name
+  attr_reader :user, :path, :name
 
   DELIMITER = "/"
   DEFAULT_NAME = "file"
   MAX_NAME_LENGTH = 512
+  DEFAULT_USER = "nouser"
   DEFAULT_PATH = ":year/:month/:day/:uuid/:name"
 
-  def initialize(strategy_name:, name: nil)
-    @strategy_name = strategy_name
+  def initialize(user: DEFAULT_USER, path: DEFAULT_PATH, name: nil)
+    @user = user
+    @path = path
     @name = handle_name(name)
   end
 
@@ -27,10 +29,6 @@ class GeneratesUid
 
   private
 
-  def path
-    DEFAULT_PATH
-  end
-
   def path_options(date:)
     {
       year: date.year.to_s,
@@ -38,6 +36,7 @@ class GeneratesUid
       day: date.strftime('%d'),
       uuid: SecureRandom.uuid,
       name: @name,
+      user: @user,
     }
   end
 
