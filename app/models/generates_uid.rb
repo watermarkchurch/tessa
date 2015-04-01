@@ -9,9 +9,9 @@ class GeneratesUid
   DEFAULT_USER = "nouser"
   DEFAULT_PATH = ":year/:month/:day/:uuid/:name"
 
-  def initialize(user: DEFAULT_USER, path: DEFAULT_PATH, name: nil)
-    @user = user
-    @path = path
+  def initialize(user: nil, path: nil, name: nil)
+    @user = user || DEFAULT_USER
+    @path = path || DEFAULT_PATH
     @name = handle_name(name)
   end
 

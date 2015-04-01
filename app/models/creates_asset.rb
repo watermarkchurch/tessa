@@ -34,7 +34,11 @@ class CreatesAsset
   private
 
   def generate_uid
-    GeneratesUid.call(name: meta["name"], strategy_name: strategy_name)
+    GeneratesUid.call(
+      name: meta["name"],
+      user: username,
+      path: strategy ? strategy.path : nil,
+    )
   end
 
 end

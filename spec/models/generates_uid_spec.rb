@@ -43,8 +43,24 @@ RSpec.describe GeneratesUid do
       end
     end
 
+    context "with :path set to nil" do
+      before { args[:path] = nil }
+
+      it "sets to DEFAULT_PATH" do
+        expect(generator.path).to eq(described_class::DEFAULT_PATH)
+      end
+    end
+
     context "with no :user set" do
       before { args.delete(:user) }
+
+      it "sets to 'nouser'" do
+        expect(generator.user).to eq("nouser")
+      end
+    end
+
+    context "with :user set to nil" do
+      before { args[:user] = nil }
 
       it "sets to 'nouser'" do
         expect(generator.user).to eq("nouser")
