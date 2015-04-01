@@ -1,11 +1,13 @@
-require 'rspec/core/rake_task'
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new :specs do |task|
+    task.pattern = Dir['spec/**/*_spec.rb']
+  end
+rescue LoadError
+end
 
 task :default => ['specs']
 MIGRATIONS_PATH = File.expand_path("../db/migrate", __FILE__)
-
-RSpec::Core::RakeTask.new :specs do |task|
-  task.pattern = Dir['spec/**/*_spec.rb']
-end
 
 task :environment do
   require File.expand_path("../config/environment", __FILE__)
