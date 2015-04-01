@@ -11,6 +11,7 @@ RSpec.describe Strategy do
       region: "us-east-2",
       credentials: { access_key_id: "abc", secret_access_key: "123" },
       ttl: 1,
+      path: ":year/:uuid",
     }
   }
 
@@ -44,6 +45,10 @@ RSpec.describe Strategy do
 
       it "sets :ttl to attribute" do
         expect(strategy.ttl).to eq(1)
+      end
+
+      it "sets :path to attribute" do
+        expect(strategy.path).to eq(":year/:uuid")
       end
     end
 
