@@ -1,7 +1,7 @@
 ENV['RACK_ENV'] ||= "development"
 
 require 'bundler/setup'
-Bundler.require(:default)
+Bundler.require(:default, ENV['RACK_ENV'])
 
 Dotenv.load(".env.#{ENV['RACK_ENV']}", ".env")
 
