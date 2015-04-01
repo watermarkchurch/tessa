@@ -28,7 +28,7 @@ class Upload
   def asset_attributes
     {
       strategy_name: strategy,
-      username: "bob",
+      username: username,
       meta: {
         "name" => name,
         "size" => size,
