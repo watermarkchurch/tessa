@@ -4,23 +4,24 @@ RSpec.describe GeneratesUid do
   subject(:generator) { described_class.new(args) }
   let(:args) {
     {
-      strategy_name: "default",
+      path: ":year/:uuid",
+      user: "steve",
       name: "name",
     }
   }
+  UUID_REGEX = /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/
 
   describe "#initialize" do
-    it "sets :strategy_name attribute" do
-      expect(generator.strategy_name).to eq("default")
+    it "sets :path attribute" do
+      expect(generator.path).to eq(":year/:uuid")
     end
 
     it "sets :name attribtue" do
       expect(generator.name).to eq("name")
     end
 
-    it "errors with no strategy_name" do
-      new_args = args.reject { |k,_| k == :strategy_name }
-      expect { described_class.new(new_args) }.to raise_error
+    it "sets :user attribute" do
+      expect(generator.user).to eq("steve")
     end
 
     shared_examples_for "sets default name" do
@@ -32,6 +33,38 @@ RSpec.describe GeneratesUid do
     context "with no :name set" do
       before { args.delete(:name) }
       it_behaves_like "sets default name"
+    end
+
+    context "with no :path set" do
+      before { args.delete(:path) }
+
+      it "sets to DEFAULT_PATH" do
+        expect(generator.path).to eq(described_class::DEFAULT_PATH)
+      end
+    end
+
+    context "with :path set to nil" do
+      before { args[:path] = nil }
+
+      it "sets to DEFAULT_PATH" do
+        expect(generator.path).to eq(described_class::DEFAULT_PATH)
+      end
+    end
+
+    context "with no :user set" do
+      before { args.delete(:user) }
+
+      it "sets to 'nouser'" do
+        expect(generator.user).to eq("nouser")
+      end
+    end
+
+    context "with :user set to nil" do
+      before { args[:user] = nil }
+
+      it "sets to 'nouser'" do
+        expect(generator.user).to eq("nouser")
+      end
     end
 
     context "nil :name passed" do
@@ -70,30 +103,52 @@ RSpec.describe GeneratesUid do
     subject(:uid) { generator.call }
     let(:uid_segments) { uid.split("/") }
 
-    context "with static time" do
-      let(:time) { Time.local(2010, 3, 5, 12, 55, 10) }
+    context "with default :path" do
+      before { args.delete(:path) }
 
-      before do
-        Timecop.freeze(time)
+      context "with static time" do
+        let(:time) { Time.local(2010, 3, 5, 12, 55, 10) }
+
+        before do
+          Timecop.freeze(time)
+        end
+
+        after do
+          Timecop.return
+        end
+
+        it "prefixes path with the current date in segments" do
+          expect(uid_segments[0]).to eq("2010")
+          expect(uid_segments[1]).to eq("03")
+          expect(uid_segments[2]).to eq("05")
+        end
       end
 
-      after do
-        Timecop.return
+      it "generates a uuid for the next segment" do
+        expect(uid_segments[3]).to match(UUID_REGEX)
       end
 
-      it "prefixes path with the current date in segments" do
-        expect(uid_segments[0]).to eq("2010")
-        expect(uid_segments[1]).to eq("03")
-        expect(uid_segments[2]).to eq("05")
+      it "uses the value of @name for the last component" do
+        expect(uid_segments[4]).to eq("name")
       end
     end
 
-    it "generates a uuid for the next segment" do
-      expect(uid_segments[3]).to match(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/)
-    end
+    context "with custom path" do
+      let(:date) { Date.new(2010, 3, 5) }
+      let(:path) { ":user/:year/:month/:day/:uuid/:name/:unknown" }
+      subject(:uid) { generator.call(date: date) }
+      before { args[:path] = path }
 
-    it "uses the value of @name for the last component" do
-      expect(uid_segments[4]).to eq("name")
+      it "substitutes each component and leaves unknowns" do
+        user, year, month, day, uuid, name, unknown = uid.split('/')
+        expect(user).to eq("steve")
+        expect(year).to eq("2010")
+        expect(month).to eq("03")
+        expect(day).to eq("05")
+        expect(uuid).to match(UUID_REGEX)
+        expect(name).to match("name")
+        expect(unknown).to match(":unknown")
+      end
     end
   end
 

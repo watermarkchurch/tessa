@@ -1,10 +1,14 @@
+require 'strategy_accessor'
+
 class CreatesAsset
   include Virtus.model
+  include StrategyAccessor
 
   attribute :persistence, Object, default: -> (*_) { Asset.persistence }
   attribute :strategy_name, String, default: "default"
   attribute :meta, Hash, default: {}
   attribute :uid, String, default: :generate_uid
+  attribute :username, String
 
   def call
     return @asset if @asset
@@ -19,6 +23,7 @@ class CreatesAsset
       uid: uid,
       meta: meta,
       status_id: 1,
+      username: username,
     }
   end
 
@@ -29,7 +34,11 @@ class CreatesAsset
   private
 
   def generate_uid
-    GeneratesUid.call(name: meta["name"], strategy_name: strategy_name)
+    GeneratesUid.call(
+      name: meta["name"],
+      user: username,
+      path: strategy ? strategy.path : nil,
+    )
   end
 
 end

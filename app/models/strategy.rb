@@ -11,6 +11,7 @@ class Strategy
   attribute :region, String, default: DEFAULT_REGION
   attribute :credentials, Aws::Credentials
   attribute :ttl, Integer, default: DEFAULT_TTL
+  attribute :path, String
 
   def client
     @client ||= Aws::S3::Client.new(

@@ -23,6 +23,12 @@ class UploadsController < Sinatra::Base
   end
 
   def upload_params
-    params.select { |k,v| UPLOAD_PARAMS.include?(k) }
+    params
+      .select { |k,v| UPLOAD_PARAMS.include?(k) }
+      .merge(username: username)
+  end
+
+  def username
+    request.env['REMOTE_USER']
   end
 end

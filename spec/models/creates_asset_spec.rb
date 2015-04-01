@@ -15,6 +15,7 @@ RSpec.describe CreatesAsset do
           strategy_name: "mystrat",
           uid: "uid/123",
           meta: { "foo" => "bar" },
+          username: "bob",
           persistence: :persistence
         }
       }
@@ -34,6 +35,10 @@ RSpec.describe CreatesAsset do
       it "sets :uid attribute" do
         expect(creates_asset.uid).to eq("uid/123")
       end
+
+      it "sets :username attribute" do
+        expect(creates_asset.username).to eq("bob")
+      end
     end
 
     context "with no args passed" do
@@ -51,20 +56,24 @@ RSpec.describe CreatesAsset do
         expect(creates_asset.meta).to eq({})
       end
 
-      it "sets :uid to GeneratesUid.(strategy)" do
-        uid_generator_args = {
-          strategy_name: "default",
-          name: "filename.txt",
-        }
+      it "sets :uid to GeneratesUid.()" do
+        strategy = instance_double(Strategy, path: "custom/path")
+        args[:username] = "bob"
         args[:meta] = { "name" => "filename.txt" }
+        uid_generator_args = {
+          path: "custom/path",
+          name: "filename.txt",
+          user: "bob",
+        }
         expect(GeneratesUid).to receive(:call).with(uid_generator_args).and_return(:my_uid)
+        expect(STRATEGIES.strategies).to receive(:[]).at_least(1).and_return(strategy)
         expect(creates_asset.uid).to eq("my_uid")
       end
     end
   end
 
   describe "#call" do
-    subject(:creates_asset) { described_class.new(persistence: persistence, uid: uid) }
+    subject(:creates_asset) { described_class.new(persistence: persistence, uid: uid, username: "bob") }
     let(:persistence) { instance_double(Persistence, create: asset) }
     let(:asset) { instance_double(Asset, record.merge(id: 12345)) }
     let(:uid) { 'my_uid' }
@@ -74,6 +83,7 @@ RSpec.describe CreatesAsset do
         uid: uid,
         meta: {},
         status_id: 1,
+        username: "bob",
       }
     }
 
@@ -108,6 +118,12 @@ RSpec.describe CreatesAsset do
       expect(obj).to receive(:call).and_return(:return_val)
       expect(described_class.call(:args)).to eq(:return_val)
     end
+  end
+
+  describe "#strategy" do
+    subject(:target) { described_class.new(args) }
+    let(:args) { {} }
+    include_examples "strategy lookup method"
   end
 
 end

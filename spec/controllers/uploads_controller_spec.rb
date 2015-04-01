@@ -40,8 +40,22 @@ RSpec.describe UploadsController, type: :controller do
 
       it "initializes an Upload object and calls save" do
         upload = instance_double(Upload)
-        expect(Upload).to receive(:new).with({}).and_return(upload)
+        expect(Upload).to receive(:new).with(hash_including({})).and_return(upload)
         expect(upload).to receive(:save)
+        run_request
+      end
+    end
+
+    context "with authenticated user" do
+      let(:params) { {} }
+
+      def app
+        Rack::Auth::Basic.new(super) { |_, _| true }
+      end
+
+      it "passes username to Upload" do
+        basic_authorize "test_user", "test_password"
+        expect(Upload).to receive(:new).with(hash_including(username: "test_user")).and_return(instance_spy(Upload))
         run_request
       end
     end
@@ -64,7 +78,7 @@ RSpec.describe UploadsController, type: :controller do
 
       it "initializes an Upload object with all params" do
         upload = double(Upload, save: true)
-        expect(Upload).to receive(:new).with(params).and_return(upload)
+        expect(Upload).to receive(:new).with(hash_including(params)).and_return(upload)
         run_request
       end
     end
@@ -102,7 +116,7 @@ RSpec.describe UploadsController, type: :controller do
 
       it "doesn't initialize Upload with any invalid params" do
         upload = double(Upload, save: true)
-        expect(Upload).to receive(:new).with({}).and_return(upload)
+        expect(Upload).to receive(:new).with(hash_not_including("invalid_param" => "foo")).and_return(upload)
         run_request
       end
     end

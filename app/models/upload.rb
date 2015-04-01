@@ -5,6 +5,7 @@ class Upload
   attribute :name, String
   attribute :size, Integer, default: 0
   attribute :mime_type, String
+  attribute :username, String
 
   def save(asset_factory: CreatesAsset)
     return @asset if @asset
@@ -27,6 +28,7 @@ class Upload
   def asset_attributes
     {
       strategy_name: strategy,
+      username: "bob",
       meta: {
         "name" => name,
         "size" => size,
