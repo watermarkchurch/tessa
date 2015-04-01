@@ -116,4 +116,10 @@ RSpec.describe CreatesAsset do
     end
   end
 
+  describe "#strategy" do
+    subject(:target) { described_class.new(args) }
+    let(:args) { {} }
+    include_examples "strategy lookup method"
+  end
+
 end

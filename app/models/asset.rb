@@ -1,5 +1,8 @@
+require 'strategy_accessor'
+
 class Asset
   include Virtus.model
+  include StrategyAccessor
 
   STATUSES = {
     pending: 1,
@@ -24,10 +27,6 @@ class Asset
 
   def status
     ID_TO_STATUSES[status_id]
-  end
-
-  def strategy(db=STRATEGIES)
-    db.strategies[strategy_name.to_sym]
   end
 
   def url(strategy: self.strategy)

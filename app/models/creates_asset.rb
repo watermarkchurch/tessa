@@ -1,5 +1,8 @@
+require 'strategy_accessor'
+
 class CreatesAsset
   include Virtus.model
+  include StrategyAccessor
 
   attribute :persistence, Object, default: -> (*_) { Asset.persistence }
   attribute :strategy_name, String, default: "default"
