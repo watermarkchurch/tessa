@@ -13,6 +13,7 @@ task :environment do
   require File.expand_path("../config/environment", __FILE__)
 end
 
+desc 'Launch pry with the environment loaded'
 task :pry => :environment do
   require 'pry'
   Pry.start
