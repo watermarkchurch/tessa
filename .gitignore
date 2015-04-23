@@ -3,3 +3,4 @@ config/strategies.yml
 config/creds.yml
 tmp/
 log/*
+.env.development
