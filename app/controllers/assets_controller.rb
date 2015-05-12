@@ -15,7 +15,6 @@ class AssetsController < Sinatra::Base
   end
 
   error Persistence::RecordNotFound do
-    status 404
     {}.to_json
   end
 
