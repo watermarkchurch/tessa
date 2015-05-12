@@ -45,7 +45,11 @@ class Persistence
     dataset.where(id: instance.id).delete
   end
 
-  class RecordNotFound < StandardError; end
+  class RecordNotFound < StandardError
+    def http_status
+      404
+    end
+  end
 
   private
 
