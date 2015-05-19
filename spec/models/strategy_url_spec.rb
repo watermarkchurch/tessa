@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe StrategyURL do
   subject(:url) { described_class.new(args) }
-  let(:strategy) { spy(:strategy, acl: 'private') }
+  let(:strategy) { spy(:strategy, acl: 'private', ttl: 999) }
   let(:uid) { "uid/1" }
   let(:args) {
     {
@@ -57,6 +57,11 @@ RSpec.describe StrategyURL do
       it "calls #presigned_url with method_name and default hash" do
         url.public_send(method)
         expect(object).to have_received(:presigned_url).with(method, an_instance_of(Hash))
+      end
+
+      it "includes the ttl from the strategy in :expires_in" do
+        url.public_send(method)
+        expect(object).to have_received(:presigned_url).with(method, hash_including(expires_in: strategy.ttl))
       end
     end
 

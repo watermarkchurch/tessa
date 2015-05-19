@@ -39,9 +39,9 @@ class StrategyURL
   def default_args(method)
     case method
     when :put
-      { acl: strategy.acl }
+      { acl: strategy.acl, expires_in: strategy.ttl }
     else
-      {}
+      { expires_in: strategy.ttl }
     end
   end
 
