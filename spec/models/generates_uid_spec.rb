@@ -155,9 +155,23 @@ RSpec.describe GeneratesUid do
   describe "::call" do
     it "calls new with the arguments and then #call returning the result" do
       obj = double(:obj)
-      expect(described_class).to receive(:new).with(:args).and_return(obj)
+      expect(described_class).to receive(:new).with(option: :arg).and_return(obj)
       expect(obj).to receive(:call).and_return(:return_val)
-      expect(described_class.call(:args)).to eq(:return_val)
+      expect(described_class.call(option: :arg)).to eq(:return_val)
+    end
+
+    it "passes :date option to call but not new if present" do
+      obj = double(:obj)
+      expect(described_class).to receive(:new).with(option: :arg).and_return(obj)
+      expect(obj).to receive(:call).with(date: :date)
+      described_class.call(option: :arg, date: :date)
+    end
+
+    it "passes today's date to call if no date present" do
+      obj = double(:obj)
+      expect(described_class).to receive(:new).with(option: :arg).and_return(obj)
+      expect(obj).to receive(:call).with(date: Date.today)
+      described_class.call(option: :arg)
     end
   end
 

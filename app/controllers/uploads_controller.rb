@@ -7,6 +7,7 @@ class UploadsController < Sinatra::Base
     strategy
     name
     size
+    date
     mime_type
   ]
 

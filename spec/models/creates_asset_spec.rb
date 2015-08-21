@@ -59,11 +59,12 @@ RSpec.describe CreatesAsset do
       it "sets :uid to GeneratesUid.()" do
         strategy = instance_double(Strategy, path: "custom/path")
         args[:username] = "bob"
-        args[:meta] = { "name" => "filename.txt" }
+        args[:meta] = { "name" => "filename.txt", "date" => Date.new(2016, 01, 01) }
         uid_generator_args = {
           path: "custom/path",
           name: "filename.txt",
           user: "bob",
+          date: Date.new(2016, 01 ,01),
         }
         expect(GeneratesUid).to receive(:call).with(uid_generator_args).and_return(:my_uid)
         expect(STRATEGIES.strategies).to receive(:[]).at_least(1).and_return(strategy)

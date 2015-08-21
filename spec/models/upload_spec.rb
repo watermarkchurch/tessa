@@ -10,6 +10,7 @@ RSpec.describe Upload do
       "size" => "3",
       "mime_type" => "text/plain",
       "username" => "bob",
+      "date" => "2016-01-01",
     }
   }
 
@@ -34,6 +35,10 @@ RSpec.describe Upload do
       it "sets username to attribute" do
         expect(upload.username).to eq("bob")
       end
+
+      it "sets date to attribute" do
+        expect(upload.date).to eq(Date.new(2016, 01, 01))
+      end
     end
 
     context "with no attributes set" do
@@ -51,6 +56,10 @@ RSpec.describe Upload do
       it "sets size to 0" do
         expect(upload.size).to eq(0)
       end
+
+      it "sets date to today" do
+        expect(upload.date).to eq(Date.today)
+      end
     end
   end
 
@@ -62,6 +71,7 @@ RSpec.describe Upload do
         meta: {
           "name" => "foo.txt",
           "size" => 3,
+          "date" => Date.new(2016, 01, 01),
           "mime_type" => "text/plain",
         }
       }

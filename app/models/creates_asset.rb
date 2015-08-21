@@ -37,6 +37,7 @@ class CreatesAsset
     GeneratesUid.call(
       name: meta["name"],
       user: username,
+      date: meta["date"],
       path: strategy ? strategy.path : nil,
     )
   end

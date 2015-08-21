@@ -24,6 +24,13 @@ RSpec.feature "Upload process" do
     expect(asset['status']).to eq("cancelled")
   end
 
+  scenario "Client creates an upload with a custom date" do
+    upload = post_new_upload(date: "2014-02-01")
+
+    asset = JSON.parse(response.body)
+    expect(asset["upload_url"]).to include("2014/02/01")
+  end
+
   def post_new_upload(params=nil)
     params ||= {
       name: "myfile.txt",

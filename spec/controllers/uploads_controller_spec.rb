@@ -67,6 +67,7 @@ RSpec.describe UploadsController, type: :controller do
           "name" => "filename",
           "size" => "123",
           "mime_type" => "text/plain",
+          "date" => "2016-01-01",
         }
       }
 

@@ -23,8 +23,9 @@ class GeneratesUid
     end
   end
 
-  def self.call(*args)
-    new(*args).call
+  def self.call(**options)
+    date = options.delete(:date) || Date.today
+    new(**options).call(date: date)
   end
 
   private

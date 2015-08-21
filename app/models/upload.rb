@@ -4,6 +4,7 @@ class Upload
   attribute :strategy, String, default: "default"
   attribute :name, String
   attribute :size, Integer, default: 0
+  attribute :date, Date, default: -> (*) { Date.today }
   attribute :mime_type, String
   attribute :username, String
 
@@ -32,6 +33,7 @@ class Upload
       meta: {
         "name" => name,
         "size" => size,
+        "date" => date,
         "mime_type" => mime_type,
       }
     }
