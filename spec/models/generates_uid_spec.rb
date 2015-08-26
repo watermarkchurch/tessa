@@ -78,7 +78,7 @@ RSpec.describe GeneratesUid do
     end
 
     context "with special characters in name" do
-      before { args[:name] = " dirty_file##@2$®¶áname.pdf" }
+      before { args[:name] = ' dirty_file##@2$®¶áname.pdf' }
       it "sanitizes the name" do
         expect(generator.name).to eq("dirty-file-2-name.pdf")
       end
