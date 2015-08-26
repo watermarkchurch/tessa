@@ -146,10 +146,25 @@ RSpec.describe GeneratesUid do
         expect(month).to eq("03")
         expect(day).to eq("05")
         expect(uuid).to match(UUID_REGEX)
-        expect(name).to match("name")
-        expect(unknown).to match(":unknown")
+        expect(name).to eq("name")
+        expect(unknown).to eq(":unknown")
       end
     end
+
+    context "with a name containing an extension" do
+      let(:date) { Date.new(2010, 3, 5) }
+      subject(:uid) { generator.call(date: date) }
+
+      before do
+        args[:name] = "name.pdf"
+        args[:path] = ":year:extension"
+      end
+
+      it "sets :extension to the extension" do
+        expect(uid).to eq("2010.pdf")
+      end
+    end
+
   end
 
   describe "::call" do

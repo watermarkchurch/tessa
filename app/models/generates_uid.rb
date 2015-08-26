@@ -37,6 +37,7 @@ class GeneratesUid
       day: date.strftime('%d'),
       uuid: SecureRandom.uuid,
       name: @name,
+      extension: File.extname(@name),
       user: @user,
     }
   end
