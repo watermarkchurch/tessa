@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem 'aws-sdk', '~>2'
+gem 'bugsnag'
 gem 'dotenv', '~>1.0.2'
 gem 'le'
 gem 'pg', '~>0.18.1'
@@ -19,6 +20,5 @@ group :development do
 end
 
 group :production do
-  gem 'airbrake'
   gem 'newrelic_rpm'
 end
