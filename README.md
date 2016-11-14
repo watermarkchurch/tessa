@@ -61,6 +61,23 @@ Tessa uses a PostreSQL database for persisting data on the assets in the
 system. You will need to configure a `DATABASE_URL` environment
 variables to a PostgreSQL database.
 
+## Development
+
+To get started with development first follow the instructions on
+Watermark's [devenv repository][9]. Once that is setup and working clone
+down this repository and run the following commands:
+
+- `$ script/setup` - Perform some setup tasks for this repo
+- `$ docker-compose up` - Start up necessary Docker containers
+- `$ docker-compose run web rake db:create db:migrate` - Setup the
+  database and load the schema.
+- Visit `http://tessa.wcc` in your browser. You should see the app!
+- Run the test suite with `$ docker-compose run web rspec`
+
+This should be all you need to get a working development environment. If
+you're having trouble please get in touch with us at dev@watermark.org.
+We'd be glad to help.
+
 ## Contributing
 
 See [CONTRIBUTING.md][contributing]
@@ -76,4 +93,4 @@ See [CONTRIBUTING.md][contributing]
 [6]: https://codeclimate.com/github/watermarkchurch/tessa "Coverage Status"
 [7]: https://img.shields.io/codeclimate/github/watermarkchurch/tessa.svg?style=flat
 [8]: https://codeclimate.com/github/watermarkchurch/tessa "Code Climate"
-
+[9]: https://github.com/watermarkchurch/devenv

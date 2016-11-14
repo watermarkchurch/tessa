@@ -35,12 +35,14 @@ end
 
 namespace :db do
 
+  desc 'create the database'
   task :create => :environment do |t, args|
-    system "createdb #{db_name}"
+    system "createdb -h #{db_host} -U #{db_user} #{db_name}"
   end
 
+  desc 'drop the database'
   task :drop => :environment do |t, args|
-    system "dropdb #{db_name}"
+    system "dropdb -h #{db_host} -U #{db_user} #{db_name}"
   end
 
   desc "migrate the database"
@@ -55,8 +57,20 @@ namespace :db do
     Sequel::Migrator.run(DB, MIGRATIONS_PATH, options)
   end
 
+  def db_host
+    db_uri.host
+  end
+
+  def db_user
+    db_uri.user
+  end
+
   def db_name
-    URI(ENV['DATABASE_URL']).path[1..-1]
+    db_uri.path[1..-1]
+  end
+
+  def db_uri
+    URI(ENV['DATABASE_URL'])
   end
 end
 

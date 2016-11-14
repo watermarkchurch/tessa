@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ROOT=$PWD
+
+if ! [ -e $ROOT/config/creds.yml ]; then
+  cp $ROOT/config/creds.yml.example $ROOT/config/creds.yml
+fi
+
+if ! [ -e $ROOT/config/strategies.yml ]; then
+  cp $ROOT/config/strategies.yml.example $ROOT/config/strategies.yml
+fi
+
