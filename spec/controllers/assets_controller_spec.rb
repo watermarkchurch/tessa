@@ -43,6 +43,10 @@ RSpec.describe AssetsController, type: :controller do
       expect(json['private_url']).to eq(asset.url.get)
     end
 
+    it "returns private_download_url" do
+      expect(json['private_download_url']).to eq(asset.url.get(response_content_disposition: "attachment"))
+    end
+
     it "returns public_url" do
       expect(json['public_url']).to eq(asset.url.public)
     end
