@@ -66,6 +66,7 @@ class AssetsController < Sinatra::Base
       meta: asset.meta,
       public_url: asset.url.public,
       private_url: asset.url.get,
+      private_download_url: asset.url.get(response_content_disposition: "attachment"),
     }
   end
 end
