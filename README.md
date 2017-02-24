@@ -19,11 +19,24 @@ for this service.
 
 ## Configuration
 
+Credentials and strategies can be configured in one of two ways. Through
+a JSON encoded environment variable or through a YAML config file.
+
 ### `config/creds.yml`
 
 This YAML file provides username and passwords for basic authentication
 for clients of the API. You can provide as many credentials as is
-necessary for your deployment.
+necessary for your deployment. The schema is:
+
+```yaml
+
+username1: password1
+username2: password2
+
+```
+
+This can also be configured through the `TESSA_CREDENTIALS` environment
+variable. See the Environment Variables section below.
 
 ### `config/strategies.yml`
 
@@ -51,6 +64,9 @@ strategy_name:
 
 For configuring AWS credentials see the Environment Variables section.
 
+Strategies can also be configured through the `TESSA_STRATEGIES`
+environment variable. See the Environment Variables section below.
+
 ### Environment Variables
 
 AWS credentials and region for the strategies in your system can be
@@ -60,6 +76,14 @@ configured with the environment variables `AWS_REGION`,
 Tessa uses a PostreSQL database for persisting data on the assets in the
 system. You will need to configure a `DATABASE_URL` environment
 variables to a PostgreSQL database.
+
+`TESSA_CREDENTIALS` when set will take precedence over the YAML config
+file. It has the same schema, but is JSON encoded. For example:
+`{"username":"password"}`.
+
+`TESSA_STRATEGIES` when set will take precedence over the YAML config
+file. It has the same schema, but is JSON encoded. For example:
+`{"strategy_name":{"bucket":"my-tessa-bucket","prefix":"files/","ttl":1800}}`
 
 ## Development
 
