@@ -39,7 +39,6 @@ GEM
     jmespath (1.0.2)
       multi_json (~> 1.0)
     json (1.8.3)
-    le (2.6.2)
     method_source (0.8.2)
     multi_json (1.11.0)
     multi_xml (0.5.5)
@@ -91,7 +90,6 @@ DEPENDENCIES
   bugsnag
   dotenv (~> 1.0.2)
   fabrication (~> 2.12.2)
-  le
   newrelic_rpm
   pg (~> 0.18.1)
   pry (~> 0.10.1)
@@ -105,5 +103,8 @@ DEPENDENCIES
   timecop (~> 0.7.1)
   virtus (~> 1.0.4)
 
+RUBY VERSION
+   ruby 2.1.7p400
+
 BUNDLED WITH
-   1.11.2
+   1.14.6
