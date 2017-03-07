@@ -1,4 +1,4 @@
-FROM ruby:2.3
+FROM ruby:2.1.7
 MAINTAINER "Watermark Dev <dev@watermark.org>"
 
 RUN apt-get update && apt-get install --fix-missing -y \

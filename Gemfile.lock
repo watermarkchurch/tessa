@@ -49,6 +49,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (3.7.1)
     rack (1.6.0)
     rack-protection (1.5.3)
       rack
@@ -94,6 +95,7 @@ DEPENDENCIES
   newrelic_rpm
   pg (~> 0.18.1)
   pry (~> 0.10.1)
+  puma
   rack-test (~> 0.6.3)
   rake (~> 10.4.2)
   rspec (~> 3.2.0)
