@@ -12,12 +12,12 @@
       "value": "5"
     },
     "BUGSNAG_API_KEY": {
-      "description": "API key for Bugsnag integration",
+      "description": "API key for Bugsnag integration (leave blank to disable error reporting)",
       "required": false,
       "value": ""
     },
     "AWS_REGION": {
-      "description": "The default region for AWS (can be overridden by strategies",
+      "description": "The default region for AWS (can be overridden by strategies)",
       "value": "us-east-1"
     },
     "AWS_ACCESS_KEY_ID": {
