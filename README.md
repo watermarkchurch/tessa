@@ -3,6 +3,7 @@
 [ ![Build Status][3]    ][4]
 [ ![Coverage Status][5] ][6]
 [ ![Code Climate][7]    ][8]
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/watermarkchurch/tessa)
 
 Tessa is a small web API that manages assets by providing links to
 upload, download, and delete remote files via HTTP. It has a database to
