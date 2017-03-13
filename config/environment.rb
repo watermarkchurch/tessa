@@ -10,6 +10,8 @@ DB = Sequel.connect(DATABASE_URL)
 DB.extension :pg_json
 Sequel.default_timezone = :utc
 
+FORCE_SSL = ENV['FORCE_SSL'] == '1'
+
 APP_ROOT = File.expand_path("../..", __FILE__)
 PRELOAD_PATHS = %w[
   lib

@@ -7,6 +7,7 @@ gem 'dotenv', '~>1.0.2'
 gem 'pg', '~>0.18.1'
 gem 'pry', '~>0.10.1', require: false
 gem 'puma'
+gem 'rack-ssl', '1.4.1'
 gem 'rake', '~>10.4.2'
 gem 'sinatra', '~>1.4.5', github: "sinatra/sinatra"
 gem 'sequel', '~>4.19.0'
