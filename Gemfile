@@ -1,11 +1,13 @@
+ruby '2.1.7'
 source "https://rubygems.org"
 
 gem 'aws-sdk', '~>2'
 gem 'bugsnag'
 gem 'dotenv', '~>1.0.2'
-gem 'le'
 gem 'pg', '~>0.18.1'
 gem 'pry', '~>0.10.1', require: false
+gem 'puma'
+gem 'rack-ssl', '1.4.1'
 gem 'rake', '~>10.4.2'
 gem 'sinatra', '~>1.4.5', github: "sinatra/sinatra"
 gem 'sequel', '~>4.19.0'

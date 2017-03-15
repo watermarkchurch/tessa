@@ -16,7 +16,7 @@ module Sinatra
     end
 
     def self.logger
-      @@logger ||= Logger.new("#{APP_ROOT}/log/#{ENV['RACK_ENV']}.log")
+      @@logger ||= initialize_logger
     end
 
     def self.logger=(logger)
@@ -25,6 +25,14 @@ module Sinatra
 
     def self.registered(app)
       app.helpers TessaLogger::Helpers
+    end
+
+    def self.initialize_logger(stdout=ENV['STDOUT_LOGGING'] == '1')
+      if stdout
+        Logger.new(STDOUT)
+      else
+        Logger.new("#{APP_ROOT}/log/#{ENV['RACK_ENV']}.log")
+      end
     end
 
   end

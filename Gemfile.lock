@@ -39,7 +39,6 @@ GEM
     jmespath (1.0.2)
       multi_json (~> 1.0)
     json (1.8.3)
-    le (2.6.2)
     method_source (0.8.2)
     multi_json (1.11.0)
     multi_xml (0.5.5)
@@ -49,8 +48,11 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (3.7.1)
     rack (1.6.0)
     rack-protection (1.5.3)
+      rack
+    rack-ssl (1.4.1)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -90,10 +92,11 @@ DEPENDENCIES
   bugsnag
   dotenv (~> 1.0.2)
   fabrication (~> 2.12.2)
-  le
   newrelic_rpm
   pg (~> 0.18.1)
   pry (~> 0.10.1)
+  puma
+  rack-ssl (= 1.4.1)
   rack-test (~> 0.6.3)
   rake (~> 10.4.2)
   rspec (~> 3.2.0)
@@ -104,4 +107,4 @@ DEPENDENCIES
   virtus (~> 1.0.4)
 
 BUNDLED WITH
-   1.11.2
+   1.14.6
