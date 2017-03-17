@@ -32,7 +32,7 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
-    dotenv (1.0.2)
+    dotenv (2.2.0)
     equalizer (0.0.9)
     fabrication (2.12.2)
     ice_nine (0.11.1)
@@ -90,7 +90,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (~> 2)
   bugsnag
-  dotenv (~> 1.0.2)
+  dotenv (~> 2.2.0)
   fabrication (~> 2.12.2)
   newrelic_rpm
   pg (~> 0.18.1)
