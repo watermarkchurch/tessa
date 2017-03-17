@@ -3,7 +3,7 @@ source "https://rubygems.org"
 
 gem 'aws-sdk', '~>2'
 gem 'bugsnag'
-gem 'dotenv', '~>1.0.2'
+gem 'dotenv', '~>2.2.0'
 gem 'pg', '~>0.18.1'
 gem 'pry', '~>0.10.1', require: false
 gem 'puma'
