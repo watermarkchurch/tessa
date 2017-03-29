@@ -16,6 +16,10 @@
       "required": false,
       "value": ""
     },
+    "BUGSNAG_RELEASE_STAGE": {
+      "description": "Reported environment to Bugsnag",
+      "value": "development"
+    },
     "AWS_REGION": {
       "description": "The default region for AWS (can be overridden by strategies)",
       "value": "us-east-1"
