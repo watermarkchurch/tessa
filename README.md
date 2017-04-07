@@ -102,9 +102,10 @@ To get started with development first follow the instructions on
 Watermark's [devenv repository][9]. Once that is setup and working clone
 down this repository and run the following commands:
 
-- `$ docker-compose up` - Start up necessary Docker containers
+- `$ docker-compose run web bundle install` - Install gem dependencies
 - `$ docker-compose run web rake db:create db:migrate` - Setup the
   database and load the schema.
+- `$ docker-compose up` - Start up necessary Docker containers
 - Visit `http://tessa.wcc` in your browser. You should see the app!
 - Run the test suite with `$ docker-compose run web rspec`
 - If you need to create any development specific configuration do it in
