@@ -4,5 +4,5 @@ set -e
 
 docker-compose build
 docker-compose run web bundle install
-docker-compose run web rake db:create db:migrate db:seed
+docker-compose run web rake db:create db:migrate
 docker-compose stop
