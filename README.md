@@ -100,8 +100,9 @@ file. It has the same schema, but is JSON encoded. For example:
 
 To get started with development first follow the instructions on
 Watermark's [devenv repository][9]. Once that is setup and working clone
-down this repository and run the following commands:
+down this repository and do the following:
 
+- Get your AWS credentials and put them in [your creds.yml file](#Configuration)
 - `bin/setup` - Run a few app setup tasks
 - `$ docker-compose up` - Start up necessary Docker containers
 - Visit `http://tessa.wcc` in your browser. You should see the app!
