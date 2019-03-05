@@ -1,4 +1,6 @@
 class UploadsController < Sinatra::Base
+  include HttpAuthProtection
+
   before do
     content_type "application/json"
   end

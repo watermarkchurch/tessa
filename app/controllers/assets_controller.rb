@@ -1,4 +1,5 @@
 class AssetsController < Sinatra::Base
+  include HttpAuthProtection
 
   set(:multiple_ids) do |only_multiple|
     condition do
