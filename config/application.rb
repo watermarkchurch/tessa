@@ -5,9 +5,6 @@ TessaApp = Rack::URLMap.new(
   '/assets' => AssetsController,
   '/' => RootController
 )
-HealthCheckApp = Rack::URLMap.new(
-  '/health-check' => HealthCheckController
-)
 
 ProtectedTessaApp = Rack::Auth::Basic.new(TessaApp) do |username, password|
   CREDENTIALS[username] == password
