@@ -1,7 +1,5 @@
 class RootController < Sinatra::Base
-  include HttpAuthProtection
-
-  get '/' do
+  get "/" do
     asset_status_counts = Asset::STATUSES.collect do |status, status_id|
       count = DB[:assets].where(status_id: status_id).count
       "<div><strong>#{status}:</strong> #{count}</div>"
