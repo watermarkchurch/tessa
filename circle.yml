@@ -2,7 +2,7 @@ machine:
   environment:
     DATABASE_URL: postgres://ubuntu@localhost/circle_ruby_test
   ruby:
-    version: 2.3.3
+    version: 2.3.8
 dependencies:
   post:
     - bundle exec rake setup

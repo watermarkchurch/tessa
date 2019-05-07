@@ -5,7 +5,7 @@ postgres:
 
 web:
   build: .
-  command: ["rackup", "-p", "80", "-o", "0.0.0.0", "config.ru"]
+  command: ["bundle", "exec", "rackup", "-p", "80", "-o", "0.0.0.0", "config.ru"]
   environment:
     - "WATERMARK_DEV_ENV_DOMAIN"
     - "DATABASE_URL=postgres://postgres@db/tessa_development"
@@ -18,4 +18,3 @@ web:
     - "3111:80"
   links:
     - postgres:db
-
