@@ -74,6 +74,9 @@ The `region` and `credentials` config items are optional if you provide
 the AWS prefixed environment variables. See the Environment Variables
 section below.
 
+Warning: signed downloads will not work if the `region` config does not actually
+match the region of the bucket.
+
 Strategies can also be configured through the `TESSA_STRATEGIES`
 environment variable. See the Environment Variables section below.
 
