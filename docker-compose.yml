@@ -1,5 +1,7 @@
 postgres:
-  image: postgres
+  image: postgres:9.6
+  environment:
+    - POSTGRES_PASSWORD=dev
   ports:
     - "5432"
 
@@ -8,7 +10,7 @@ web:
   command: ["bundle", "exec", "rackup", "-p", "80", "-o", "0.0.0.0", "config.ru"]
   environment:
     - "WATERMARK_DEV_ENV_DOMAIN"
-    - "DATABASE_URL=postgres://postgres@db/tessa_development"
+    - "DATABASE_URL=postgres://postgres:dev@db/tessa_development"
 
   volumes:
     - .:/app
