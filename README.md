@@ -80,6 +80,75 @@ match the region of the bucket.
 Strategies can also be configured through the `TESSA_STRATEGIES`
 environment variable. See the Environment Variables section below.
 
+### How should I configure my s3 bucket?
+
+First thing to note is you should almost always use `us-east-1`, you're likely
+to get headaches if you use another region.
+
+The s3 bucket must also be configured with the proper Bucket Policy and CORS configuration
+to work appropriately.
+
+1. In the IAM console, find (or create) a user for Tessa.
+2. During the user creation step (or on the Security Credentials tab) create an
+   Access Key.  Use the Key and Key ID in the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+   environment variables.
+3. In the user's Permissions tab, create (or attach) a Policy that allows all
+   "put", "get", and "delete" actions against the bucket and all objects within it.
+   Hint: start with the bucket's ARN and then check all the policies that apply to the bucket.  
+   Here's what a bucket ARN looks like (note that you need both the root as well
+   as `/*` to access all items in the bucket):
+```json
+   "arn:aws:s3:::assets.watermark.org/*",
+   "arn:aws:s3:::assets.watermark.org"
+```
+4. Go back to the Bucket and edit the CORS configuration.  This allows Dropzone.js
+   to upload files from the browser.  
+   **Server responded with 0 code** - if you get this error, you didn't set up the
+   CORS properly!  
+   you need a new `CORSRule` for each website that will upload to Tessa using
+   Dropzone.js.  The `AllowedOrigin` must match the Website that is allowed to
+   upload.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+<CORSRule>
+    <AllowedOrigin>https://events.watermark.org</AllowedOrigin>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedMethod>POST</AllowedMethod>
+    <AllowedMethod>DELETE</AllowedMethod>
+    <AllowedHeader>*</AllowedHeader>
+</CORSRule>
+<CORSRule>
+    <AllowedOrigin>*</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+</CORSRule>
+</CORSConfiguration>
+```
+5. (optional) Set up a Public CDN to serve images  
+   If you followed the guide in the Events system readme to set up a public
+   CDN to serve uploaded assets, then the bucket will need the following Bucket Policy.  
+   Note: if you selected "Grant Read Permissions on Bucket - Yes, Update Bucket Policy"
+   then AWS took care of this for you automatically.  
+   This policy allows the CloudFront CDN to read all objects in the bucket.  You
+   can mix this with other policies.
+```json
+{
+    "Version": "2008-10-17",
+    "Id": "PolicyForCloudFrontPrivateContent",
+    "Statement": [
+        {
+            "Sid": "1",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity xxxxxx"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::assets.watermark.org/*"
+        }
+    ]
+}
+```
+
 ### Environment Variables
 
 Default AWS credentials and region for the strategies in your system can
