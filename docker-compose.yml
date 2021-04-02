@@ -1,20 +1,24 @@
-postgres:
-  image: postgres
-  ports:
-    - "5432"
+version: "3.7"
+services:
+  postgres:
+    image: postgres:10
+    ports:
+      - "5432"
 
-web:
-  build: .
-  command: ["bundle", "exec", "rackup", "-p", "80", "-o", "0.0.0.0", "config.ru"]
-  environment:
-    - "WATERMARK_DEV_ENV_DOMAIN"
-    - "DATABASE_URL=postgres://postgres@db/tessa_development"
+  web:
+    build: .
+    command: ["bundle", "exec", "rackup", "-p", "80", "-o", "0.0.0.0", "config.ru"]
+    environment:
+      - "WATERMARK_DEV_ENV_DOMAIN"
+      - "DATABASE_URL=postgres://postgres@db/tessa_development"
 
-  volumes:
-    - .:/app
-    - ../../gems:/wcc-gems
-    - tessa_bundle:/bundle
-  ports:
-    - "3111:80"
-  links:
-    - postgres:db
+    volumes:
+      - .:/app:delegated
+      - bundle:/bundle:cached
+    ports:
+      - "3111:80"
+    depends_on:
+      - postgres
+
+volumes:
+  bundle:

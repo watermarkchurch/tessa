@@ -12,5 +12,5 @@ addons:
 notifications:
   email: false
 rvm:
-  - 2.1.0
-  - 2.2.0
+  - 2.3.8
+  - 2.7.2
