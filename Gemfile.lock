@@ -49,7 +49,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rake (10.4.2)
+    rake (12.3.3)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -94,7 +94,7 @@ DEPENDENCIES
   puma
   rack-ssl (= 1.4.1)
   rack-test (~> 0.6.3)
-  rake (~> 10.4.2)
+  rake (~> 12.3.3)
   rspec (~> 3.10.0)
   sequel (~> 5.9.0)
   sequel_pg (~> 1.6.11)
