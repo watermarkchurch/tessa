@@ -1,0 +1,73 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:2.7.2-node-browsers
+        environment:
+          RAILS_ENV: test
+          DATABASE_URL: postgresql://ubuntu:test@127.0.0.1:5432/circle_ruby_test
+      - image: postgres:10
+        environment:
+          POSTGRES_USER: ubuntu
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: circle_ruby_test
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v2-dependencies-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v2-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path /tmp/vendor/bundle
+
+      - save_cache:
+          paths:
+            - /tmp/vendor/bundle
+          key: v2-dependencies-{{ checksum "Gemfile.lock" }}
+
+      # Database setup
+      - run: bundle exec rake setup
+
+      # run tests!
+      - run:
+          name: run tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+
+            bundle exec rspec --format progress \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format documentation \
+                            --order rand \
+                            $TEST_FILES
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+      # Lint
+      - run:
+          name: rubocop
+          command: bundle exec rubocop
+
+      # Ensure assets properly compile
+      - run: |
+          bundle exec rake assets:precompile RAILS_ENV=production SECRET_KEY_BASE=test
