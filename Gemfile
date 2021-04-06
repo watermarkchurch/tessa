@@ -19,6 +19,6 @@ gem 'virtus', '~>1.0.4'
 group :development do
   gem 'fabrication', '~>2.12.2'
   gem 'rack-test', '~>0.6.3'
-  gem 'rspec', '~>3.2.0'
+  gem 'rspec', '~>3.10.0'
   gem 'timecop', '~>0.7.1'
 end
