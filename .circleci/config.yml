@@ -40,27 +40,15 @@ jobs:
           key: v2-dependencies-{{ checksum "Gemfile.lock" }}
 
       # Database setup
-      - run: bundle exec rake setup
+      - run: bundle exec rake setup db:create db:migrate
 
       # run tests!
       - run:
           name: run tests
           command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-
             bundle exec rspec --format progress \
-                            --out /tmp/test-results/rspec.xml \
                             --format documentation \
-                            --order rand \
-                            $TEST_FILES
-
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+                            --order rand
 
       # Lint
       - run:
