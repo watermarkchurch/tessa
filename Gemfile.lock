@@ -34,7 +34,6 @@ GEM
     ice_nine (0.11.2)
     jmespath (1.4.0)
     method_source (0.8.2)
-    newrelic_rpm (6.15.0)
     nio4r (2.5.7)
     pg (0.18.4)
     pry (0.10.4)
@@ -90,7 +89,6 @@ DEPENDENCIES
   bugsnag (~> 4.0)
   dotenv (~> 2.7.0)
   fabrication (~> 2.12.2)
-  newrelic_rpm
   pg (~> 0.18.1)
   pry (~> 0.10.1)
   puma
