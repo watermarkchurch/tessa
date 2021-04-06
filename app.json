@@ -51,5 +51,6 @@
   "image": "heroku/ruby",
   "addons": [
     "heroku-postgresql:hobby-dev"
-  ]
+  ],
+  "stack": "heroku-20"
 }

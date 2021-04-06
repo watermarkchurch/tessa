@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new :specs do |task|
@@ -6,15 +8,15 @@ begin
 rescue LoadError
 end
 
-task :default => ['specs']
-MIGRATIONS_PATH = File.expand_path("../db/migrate", __FILE__)
+task default: ['specs']
+MIGRATIONS_PATH = File.expand_path('db/migrate', __dir__)
 
 task :environment do
-  require File.expand_path("../config/environment", __FILE__)
+  require File.expand_path('config/environment', __dir__)
 end
 
 desc 'Launch pry with the environment loaded'
-task :pry => :environment do
+task pry: :environment do
   require 'pry'
   Pry.start
 end
@@ -22,38 +24,47 @@ end
 desc 'Copy the example files into place'
 task :setup do
   require 'fileutils'
-  root = File.expand_path("..", __FILE__)
+  root = File.expand_path(__dir__)
   {
-    File.join(root, "config", "creds.yml.example") =>
-      File.join(root, "config", "creds.yml"),
-    File.join(root, "config", "strategies.yml.example") =>
-      File.join(root, "config", "strategies.yml"),
+    File.join(root, 'config', 'creds.yml.example') =>
+      File.join(root, 'config', 'creds.yml'),
+    File.join(root, 'config', 'strategies.yml.example') =>
+      File.join(root, 'config', 'strategies.yml')
   }.each do |source, dest|
-    FileUtils.cp(source, dest) unless File.exists?(dest)
+    FileUtils.cp(source, dest) unless File.exist?(dest)
   end
 end
 
 namespace :db do
+  task :ensure_env do
+    ENV['RACK_ENV'] ||= 'development'
+
+    require 'dotenv/load'
+
+    Dotenv.load(".env.#{ENV['RACK_ENV']}.local", ".env.#{ENV['RACK_ENV']}", '.env')
+    ENV.inspect
+  end
 
   desc 'create the database'
-  task :create => :environment do |t, args|
+  task create: :ensure_env do |_t, _args|
+    puts <<~PW
+      Creating the DB - when prompted for the password, please use: #{db_password}
+    PW
     system "createdb -h #{db_host} -U #{db_user} #{db_name}"
   end
 
   desc 'drop the database'
-  task :drop => :environment do |t, args|
+  task drop: :environment do |_t, _args|
     system "dropdb -h #{db_host} -U #{db_user} #{db_name}"
   end
 
-  desc "migrate the database"
-  task :migrate, [:version] => :environment do |t, args|
+  desc 'migrate the database'
+  task :migrate, [:version] => :environment do |_t, args|
     Sequel.extension :migration
     options = {
-      use_transactions: true,
+      use_transactions: true
     }
-    if args[:version]
-      options[:target] = args[:version].to_i
-    end
+    options[:target] = args[:version].to_i if args[:version]
     Sequel::Migrator.run(DB, MIGRATIONS_PATH, options)
   end
 
@@ -69,8 +80,11 @@ namespace :db do
     db_uri.path[1..-1]
   end
 
+  def db_password
+    db_uri.password
+  end
+
   def db_uri
     URI(ENV['DATABASE_URL'])
   end
 end
-

@@ -2,7 +2,13 @@
 
 set -e
 
+echo "== Building Docker Images =="
 docker-compose build
-docker-compose run web bundle install
-docker-compose run web rake db:create db:migrate
+
+echo "== Setup Dev Database =="
+docker-compose run web bundle exec rake db:create db:migrate
+
+echo "== Setup Test Database =="
+docker-compose run -e RACK_ENV=test web bundle exec rake db:create db:migrate
+
 docker-compose stop
