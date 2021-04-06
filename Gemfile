@@ -3,7 +3,7 @@
 ruby '2.7.2'
 source 'https://rubygems.org'
 
-gem 'aws-sdk', '~>2'
+gem 'aws-sdk-s3', '~>1'
 gem 'bugsnag', '~> 4.0'
 gem 'dotenv', '~>2.7.0'
 gem 'pg', '~>0.18.1'
