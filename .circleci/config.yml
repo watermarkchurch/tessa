@@ -55,12 +55,3 @@ jobs:
             bundle exec rspec --format progress \
                             --format documentation \
                             --order rand
-
-      # Lint
-      - run:
-          name: rubocop
-          command: bundle exec rubocop
-
-      # Ensure assets properly compile
-      - run: |
-          bundle exec rake assets:precompile RAILS_ENV=production SECRET_KEY_BASE=test
