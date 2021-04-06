@@ -25,22 +25,30 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v2-dependencies-{{ checksum "Gemfile.lock" }}
+          - v0-dependencies-{{ checksum "Gemfile.lock" }}
           # fallback to using the latest cache if no exact match is found
-          - v2-dependencies-
+          - v0-dependencies-
+
+      - run: gem install bundler:2.1.4
 
       - run:
           name: install dependencies
           command: |
-            bundle install --jobs=4 --retry=3 --path /tmp/vendor/bundle
+            bundle install --jobs=4 --retry=3
 
       - save_cache:
           paths:
-            - /tmp/vendor/bundle
-          key: v2-dependencies-{{ checksum "Gemfile.lock" }}
+            - ~/vendor/bundle
+          key: v0-dependencies-{{ checksum "Gemfile.lock" }}
+      - persist_to_workspace:
+          root: '~'
+          paths:
+            - vendor/bundle
 
       # Database setup
-      - run: bundle exec rake setup db:create db:migrate
+      - run: bundle exec rake setup
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:migrate
 
       # run tests!
       - run:
