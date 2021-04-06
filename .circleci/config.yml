@@ -18,6 +18,8 @@ jobs:
           POSTGRES_DB: circle_ruby_test
 
     working_directory: ~/repo
+    attach_workspace:
+      at: '~'
 
     steps:
       - checkout
