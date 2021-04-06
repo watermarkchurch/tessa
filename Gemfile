@@ -10,7 +10,7 @@ gem 'pg', '~>0.18.1'
 gem 'pry', '~>0.10.1', require: false
 gem 'puma'
 gem 'rack-ssl', '1.4.1'
-gem 'rake', '~>10.4.2'
+gem 'rake', '~>12.3.3'
 gem 'sequel', '~>5.9.0'
 gem 'sequel_pg', '~>1.6.11', require: 'sequel'
 gem 'sinatra', '~>1.4.5'
