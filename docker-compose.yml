@@ -12,7 +12,6 @@ services:
     command: ["bundle", "exec", "rackup", "-p", "80", "-o", "0.0.0.0", "config.ru"]
     environment:
       - "WATERMARK_DEV_ENV_DOMAIN"
-
     volumes:
       - .:/app:delegated
       - bundle:/bundle:cached
