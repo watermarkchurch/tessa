@@ -9,6 +9,6 @@ echo "== Setup Dev Database =="
 docker-compose run web bundle exec rake db:create db:migrate
 
 echo "== Setup Test Database =="
-docker-compose run -e RAILS_ENV=test web rails db:test:prepare
+docker-compose run -e RACK_ENV=test web bundle exec rake db:create db:migrate
 
 docker-compose stop
