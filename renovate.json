@@ -1,12 +1,11 @@
 {
   "extends": [
-    "config:base",
-    ":preserveSemverRanges"
+    "config:base"
   ],
+  "rangeStrategy": "replace",
   "dependencyDashboard": true,
   "major": {
-    "dependencyDashboardApproval": true,
-    "ignoreDeps": ["ruby"]
+    "dependencyDashboardApproval": true
   },
   "enabledManagers": [
     "bundler",
@@ -16,11 +15,5 @@
   ],
   "lockFileMaintenance": {
     "enabled": true
-  },
-  "packageRules": [
-    {
-      "matchPackagePatterns": "^ruby.+",
-      "groupName": ["ruby lang"]
-    }
-  ]
+  }
 }
