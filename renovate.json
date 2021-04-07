@@ -1,0 +1,28 @@
+{
+  "dependencyDashboard": true,
+  "major": {
+    "dependencyDashboardApproval": true
+  },
+  "enabledManagers": [
+    "circleci",
+    "dockerfile",
+    "ruby-version"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "ruby": {
+    "major": {
+      "enabled": false
+    },
+    "minor": {
+      "enabled": false
+    }
+  },
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["ruby"],
+      "groupName": "ruby lang"
+    }
+  ]
+}
