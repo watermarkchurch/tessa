@@ -10,8 +10,8 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["ruby"],
-      "matchCurrentVersion": "/^2\.7\../"
+      "matchPackagePatterns": ["^ruby"],
+      "allowedVersions": "< 3"
     }
   ]
 }
