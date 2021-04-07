@@ -19,7 +19,7 @@
   },
   "packageRules": [
     {
-      "matchPackagePatterns": "ruby",
+      "matchPackagePatterns": "^ruby.+",
       "groupName": ["ruby lang"]
     }
   ]
