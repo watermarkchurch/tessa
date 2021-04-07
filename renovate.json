@@ -15,5 +15,11 @@
   ],
   "lockFileMaintenance": {
     "enabled": true
-  }
+  },
+  "packageRules": [
+    {
+      "excludePackagePatterns": ["^ruby"],
+      "enabled": false
+    }
+  ]
 }
