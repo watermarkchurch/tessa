@@ -14,7 +14,7 @@
   "packageRules": [
     {
       "matchPackagePrefixes": ["ruby"],
-      "rangeStrategy": "replace"
+      "allowedVersions": "< 3"
     }
   ]
 }
