@@ -2,12 +2,16 @@
   "extends": [
     "config:base"
   ],
-  {
-    "enabledManagers": [
-      "bundler",
-      "circleci",
-      "dockerfile",
-      "ruby-version"
-    ]
-  }
+  "enabledManagers": [
+    "bundler",
+    "circleci",
+    "dockerfile",
+    "ruby-version"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["ruby"],
+      "matchCurrentVersion": "/^2\.7\../"
+    }
+  ]
 }
