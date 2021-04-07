@@ -15,7 +15,7 @@
   "ruby": {
     "major": {
       "enabled": false
-    },
+    }
   },
   "packageRules": [
     {
