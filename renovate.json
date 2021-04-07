@@ -1,5 +1,13 @@
 {
   "extends": [
     "config:base"
-  ]
+  ],
+  {
+    "enabledManagers": [
+      "bundler",
+      "circleci",
+      "dockerfile",
+      "ruby-version"
+    ]
+  }
 }
