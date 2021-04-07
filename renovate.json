@@ -2,6 +2,7 @@
   "dependencyDashboard": true,
   "dependencyDashboardApproval": true,
   "enabledManagers": [
+    "bundler",
     "circleci",
     "dockerfile",
     "ruby-version"
@@ -16,11 +17,7 @@
   },
   "packageRules": [
     {
-      "matchFiles": [
-        ".ruby-version",
-        ".circleci/config.yml",
-        "Dockerfile"
-      ],
+      "matchPackagePatterns": [".*ruby.*"],
       "groupName": "ruby lang"
     }
   ]
