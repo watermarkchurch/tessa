@@ -4,6 +4,7 @@
     "dependencyDashboardApproval": true
   },
   "enabledManagers": [
+    "bundler",
     "circleci",
     "dockerfile",
     "ruby-version"
