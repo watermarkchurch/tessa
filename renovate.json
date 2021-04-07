@@ -1,5 +1,33 @@
 {
   "extends": [
     "config:base"
+  ],
+  "dependencyDashboard": true,
+  "dependencyDashboardApproval": true,
+  "enabledManagers": [
+    "circleci",
+    "dockerfile",
+    "ruby-version"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "ruby": {
+    "major": {
+      "enabled": false
+    },
+    "minor": {
+      "enabled": false
+    }
+  },
+  "packageRules": [
+    {
+      "matchFiles": [
+        ".ruby-version",
+        ".circleci/config.yml",
+        "Dockerfile"
+      ],
+      "groupName": "ruby lang"
+    }
   ]
 }
