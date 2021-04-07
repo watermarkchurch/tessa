@@ -4,7 +4,6 @@
     "dependencyDashboardApproval": true
   },
   "enabledManagers": [
-    "bundler",
     "circleci",
     "dockerfile",
     "ruby-version"
@@ -16,5 +15,11 @@
     "major": {
       "enabled": false
     }
-  }
+  },
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["ruby"],
+      "groupName": "ruby lang"
+    }
+  ]
 }
