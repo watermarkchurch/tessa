@@ -14,11 +14,14 @@
   "ruby": {
     "major": {
       "enabled": false
+    },
+    "minor": {
+      "enabled": false
     }
   },
   "packageRules": [
     {
-      "matchPackagePatterns": ["ruby|docker"],
+      "matchPackagePatterns": ["ruby"],
       "groupName": "ruby lang"
     }
   ]
