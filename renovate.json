@@ -15,7 +15,7 @@
   "packageRules": [
     {
       "matchPackagePatterns": ["^ruby"],
-      "allowedVersions": "< 3"
+      "allowedVersions": "<3"
     }
   ]
 }
