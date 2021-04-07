@@ -1,6 +1,7 @@
 {
   "dependencyDashboard": true,
   "dependencyDashboardApproval": true,
+  "additionalBranchPrefix": "r-",
   "enabledManagers": [
     "bundler",
     "circleci",
@@ -16,7 +17,7 @@
     }
   },
   "docker": {
-    "additionalBranchPrefix": ""
+    "additionalBranchPrefix": "r-"
   },
   "packageRules": [
     {
