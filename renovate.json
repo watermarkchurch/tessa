@@ -15,6 +15,9 @@
       "enabled": false
     }
   },
+  "docker": {
+    "additionalBranchPrefix": ""
+  },
   "packageRules": [
     {
       "matchPackagePatterns": [".*ruby.*"],
