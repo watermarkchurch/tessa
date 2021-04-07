@@ -4,8 +4,8 @@
   ],
   "dependencyDashboard": true,
   "major": {
-    "dependencyDashboardApproval": true
-    "ignoreDeps": ["ruby"],
+    "dependencyDashboardApproval": true,
+    "ignoreDeps": ["ruby"]
   },
   "enabledManagers": [
     "bundler",
@@ -17,5 +17,9 @@
     "enabled": true
   },
   "packageRules": [
+    {
+      "matchPackagePatterns": "ruby",
+      "groupName": ["ruby lang"]
+    }
   ]
 }
