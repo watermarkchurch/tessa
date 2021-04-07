@@ -19,6 +19,11 @@
     {
       "matchPackagePatterns": [".*ruby.*"],
       "groupName": "ruby lang"
+    },
+    {
+      "matchManagers": ["bundler"],
+      "matchPackagePatterns": [".*[^ruby].*"],
+      "enabled": false
     }
   ]
 }
