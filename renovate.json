@@ -5,6 +5,7 @@
   "dependencyDashboard": true,
   "major": {
     "dependencyDashboardApproval": true
+    "ignoreDeps": ["ruby"],
   },
   "enabledManagers": [
     "bundler",
@@ -12,10 +13,9 @@
     "dockerfile",
     "ruby-version"
   ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "packageRules": [
-    {
-      "matchPackagePatterns": ["^ruby"],
-      "allowedVersions": "<3"
-    }
   ]
 }
