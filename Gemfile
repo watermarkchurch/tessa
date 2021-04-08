@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ruby '2.7.2'
+ruby File.read('.ruby-version').strip
 source 'https://rubygems.org'
 
 gem 'aws-sdk-s3', '~>1'
