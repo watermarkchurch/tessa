@@ -1,7 +1,6 @@
 {
   "dependencyDashboard": true,
   "dependencyDashboardApproval": true,
-  "additionalBranchPrefix": "r-",
   "enabledManagers": [
     "bundler",
     "circleci",
@@ -16,9 +15,6 @@
       "enabled": false
     }
   },
-  "docker": {
-    "additionalBranchPrefix": "r-"
-  },
   "packageRules": [
     {
       "matchPackagePatterns": [".*ruby.*"],
@@ -28,6 +24,10 @@
       "matchManagers": ["bundler"],
       "matchPackagePatterns": [".*[^ruby].*"],
       "enabled": false
+    },
+    {
+      "matchDatasources": ["docker"],
+      "additionalBranchPrefix": ""
     }
   ]
 }
