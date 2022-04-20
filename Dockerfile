@@ -1,4 +1,4 @@
-FROM ruby:2.7.2
+FROM ruby:2.7.6
 MAINTAINER "Watermark Dev <dev@watermark.org>"
 
 # HACK: Needed for debian to provide latest version of postgres client
