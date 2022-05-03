@@ -13,7 +13,7 @@ gem 'rack-ssl', '1.4.1'
 gem 'rake', '~>12.3.3'
 gem 'sequel', '~>5.9.0'
 gem 'sequel_pg', '~>1.6.11', require: 'sequel'
-gem 'sinatra', '~>1.4.5'
+gem 'sinatra', '~>2.2.0'
 gem 'virtus', '~>1.0.4'
 
 group :development do
